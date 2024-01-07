@@ -12,7 +12,7 @@
 
       <div class="col">
         <q-form>
-          <div class="q-gutter-y-sm flex flex-center">
+          <div class="q-gutter-y-sm">
             <q-input
               color="orange"
               label-color="orange"
