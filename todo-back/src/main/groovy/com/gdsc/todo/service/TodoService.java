@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +48,9 @@ public class TodoService {
                 .build();
 
         return updateTask;
+    }
+
+    public void delete(Long taskId) {
+        todoRepository.deleteById(taskId);
     }
 }

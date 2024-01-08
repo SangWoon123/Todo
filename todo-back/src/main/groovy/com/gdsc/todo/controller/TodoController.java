@@ -37,5 +37,9 @@ public class TodoController {
     }
 
     // 삭제
-    
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable("taskId") Long taskId){
+        todoService.delete(taskId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
