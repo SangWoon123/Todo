@@ -16,7 +16,6 @@
             <q-input
               color="orange"
               label-color="orange"
-              rounded
               outlined
               v-model="ph"
               label="ID"
@@ -26,7 +25,6 @@
             <q-input
               color="orange"
               label-color="orange"
-              rounded
               outlined
               v-model="ph"
               label="비밀번호"
@@ -49,13 +47,15 @@
               ></q-btn
             >
             <!-- 로그인 버튼 -->
-            <q-btn
-              class="q-px-xl text-black bg-color login"
-              style="color: white; width: 230px; height: 30px"
-              unelevated
-              size="10px"
-              ><span class="text-white">로그인</span></q-btn
-            >
+            <router-link to="home">
+              <q-btn
+                class="q-px-xl text-black bg-color login"
+                style="color: white; width: 230px; height: 30px"
+                unelevated
+                size="10px"
+                ><span class="text-white">로그인</span></q-btn
+              >
+            </router-link>
           </div>
         </q-form>
         <!-- 구분선 -->
@@ -104,6 +104,16 @@ export default {
   },
 };
 </script>
+
+<style>
+.q-field--dense .q-field__control {
+  border-radius: 10px;
+  height: 33px;
+}
+.q-field__label {
+  font-size: 10px;
+}
+</style>
 
 <style lang="scss" scoped>
 .main-color {
