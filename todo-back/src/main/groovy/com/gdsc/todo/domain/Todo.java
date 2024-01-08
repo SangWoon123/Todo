@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -26,12 +27,8 @@ public class Todo {
 
     private LocalDateTime completeTime;
 
-    public void update(String content,String description){
-        if(content !=null){
-            this.content=content;
-        }
-        if(description !=null){
-            this.description=description;
-        }
+    public void update(Optional<String> content, Optional<String> description){
+        content.ifPresent(value -> this.content=value);
+        description.ifPresent(value->this.description=value);
     }
 }

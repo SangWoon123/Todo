@@ -26,26 +26,17 @@ public class TodoService {
                 .build();
         Todo save = todoRepository.save(task);
 
-        TodoResponse newTask = TodoResponse.builder()
-                .id(save.getId())
-                .content(save.getContent())
-                .description(save.getDescription())
-                .completeTime(save.getCompleteTime())
-                .build();
+        TodoResponse newTask = TodoResponse.from(save);
         return newTask;
     }
 
     @Transactional
     public TodoResponse updateTask(Long taskId,TodoRequest update) {
         Todo task = todoRepository.getById(taskId);
-        task.update(update.getContent(), update.getDescription());
+        task.update(Optional.ofNullable(update.getContent()), Optional.ofNullable(update.getDescription()));
 
-        TodoResponse updateTask = TodoResponse.builder()
-                .id(task.getId())
-                .content(task.getContent())
-                .description(task.getDescription())
-                .completeTime(task.getCompleteTime())
-                .build();
+        // domain -> dto
+        TodoResponse updateTask = TodoResponse.from(task);
 
         return updateTask;
     }
