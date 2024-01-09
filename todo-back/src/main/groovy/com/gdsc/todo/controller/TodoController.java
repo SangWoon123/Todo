@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task")
@@ -24,10 +26,12 @@ public class TodoController {
     }
 
     // 읽기
-//    @GetMapping("/{taskId}")
-//    public ResponseEntity<TodoResponse> getAllTasks(@PathVariable Long ){
-//        todoService.getAllTasks();
-//    }
+    @GetMapping("/today")
+    public ResponseEntity<List<TodoResponse>> getAllTasks(){
+        List<TodoResponse> todayTasks=todoService.getTodayTask();
+        return new ResponseEntity<>(todayTasks,HttpStatus.OK);
+    }
+
 
     // 수정
     @PatchMapping("/{taskId}")
