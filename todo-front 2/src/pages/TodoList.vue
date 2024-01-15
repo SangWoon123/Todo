@@ -54,18 +54,22 @@
             <q-item-section class="col-1 q-mr-sm">
               <q-btn round outline color="orange" size="7px"> </q-btn>
             </q-item-section>
-            <q-item-section class="col"
-              ><div>{{ task.name }}</div></q-item-section
-            >
+            <q-item-section class="col">
+              <div>{{ task.name }}</div>
+            </q-item-section>
+
+            <q-item-section>
+              <q-btn
+                @click="deleteTask(task.id)"
+                size="10px"
+                flat
+                dense
+                icon="delete"
+              />
+            </q-item-section>
 
             <q-icon name="expand_more" />
-            <q-popup-edit
-              class="bg-orange-3"
-              title="설명:"
-              v-model="label"
-              :cover="false"
-              fit
-            >
+            <q-popup-edit class="bg-orange-3" title="설명:" :cover="false" fit>
               <q-item-label class="popup-title ellipsis">{{
                 description
               }}</q-item-label>
@@ -129,7 +133,7 @@ export default {
       tasks: Array.from({ length: 5 }, (_, i) => {
         return {
           id: i + 1,
-          name: `Task ${i+1}`,
+          name: `Task ${i + 1}`,
           completed: false,
         };
       }),
@@ -156,8 +160,8 @@ export default {
         .padStart(2, "0")}.${now.getDate().toString().padStart(2, "0")}`;
       this.currentDate = formattedDate;
     },
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
     },
     // 추가
     addTask() {
