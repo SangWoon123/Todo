@@ -45,36 +45,52 @@
 
       <!-- 메인컨텐츠 -->
       <div class="q-mt-lg">
-        <q-list v-for="(task, index) in visibleTasks" :key="index">
-          <div class="row flex items-center bottom-line q-py-sm">
-            <!-- Task버튼 -->
-            <div class="col-3">
-              <q-btn size="10px" flat padding class="tag"
-                >Task{{ index + 1 }}</q-btn
-              >
-            </div>
-            <!-- 텍스트 -->
-            <div class="col-6">{{ task }}</div>
-            <!-- 아이콘 -->
-            <div class="col">
-              <q-btn
-                unelevated
-                size="8px"
-                icon="edit"
-                dense
-                class="q-ml-md"
-              ></q-btn>
-              <q-btn
-                unelevated
-                size="8px"
-                color="red"
-                icon="close"
-                dense
-                class="q-ml-sm"
-                @click="deleteTask"
-              ></q-btn>
-            </div>
-          </div>
+        <q-list class="q-gutter-y-sm">
+          <q-item
+            class="todo-box"
+            v-for="(task, index) in visibleTasks"
+            :key="index"
+          >
+            <q-item-section class="col-1 q-mr-sm">
+              <q-btn round outline color="orange" size="7px"> </q-btn>
+            </q-item-section>
+            <q-item-section class="col"
+              ><div>{{ task }}</div></q-item-section
+            >
+
+            <q-icon name="expand_more" />
+            <q-popup-edit
+              class="bg-orange-3"
+              title="설명:"
+              v-model="label"
+              :cover="false"
+              fit
+            >
+              <q-item-label class="popup-title ellipsis">{{
+                description
+              }}</q-item-label>
+              <q-input
+                v-model="descriptionInput"
+                filled
+                type="textarea"
+                class="bg-white"
+                dark
+                :input-style="{ color: 'orange' }"
+              />
+              <div class="q-mt-sm q-gutter-sm flex justify-end">
+                <q-btn
+                  unelevated
+                  dense
+                  color="primary"
+                  @click="updateDescription"
+                  >수정</q-btn
+                >
+                <q-btn unelevated dense color="red" @click="deleteDescription"
+                  >삭제</q-btn
+                >
+              </div>
+            </q-popup-edit>
+          </q-item>
         </q-list>
       </div>
     </q-container>
@@ -113,6 +129,8 @@ export default {
       tasks: Array.from({ length: 5 }, (_, i) => `Task ${i + 1}`),
       currentDate: "",
       offset: 5, // 스크롤 도달 시점
+      description: "",
+      descriptionInput: "",
     };
   },
   computed: {
@@ -141,6 +159,18 @@ export default {
         this.newTask = "";
       }
     },
+    handleUpdate(newValue) {
+      this.description = newValue;
+      this.description = "";
+    },
+    updateDescription() {
+      this.description = this.descriptionInput;
+      this.descriptionInput = "";
+    },
+    deleteDescription() {
+      this.description = "";
+      this.descriptionInput = "";
+    },
   },
 };
 </script>
@@ -163,10 +193,11 @@ export default {
 }
 
 /* 메인컨텐ㅊ  */
-.bottom-line {
-  border-style: solid;
-  border-width: 0px 0px 1px 0;
-  border-color: orange;
+.todo-box {
+  width: 100%;
+  min-height: 38px;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .tag {
@@ -195,4 +226,33 @@ export default {
 .complete {
   font-size: 10px;
 }
+
+.deatil {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #64e196;
+}
+
+.q-popup-edit__buttons {
+  background-color: beige;
+}
+
+.popup-title {
+  margin-bottom: 5px;
+  height: 50px;
+}
+
+.q-field__native {
+  height: 45px;
+}
+
+.q-dialog__title {
+  font-size: 10px;
+}
+
+.popup-title {
+  font-size: 10px;
+  max-width: 262px;
+}
+
 </style>
