@@ -11,7 +11,7 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "sign", component: () => import("pages/auth/SignIn.vue") },
-      { path: "home", component: () => import("pages/TodoList.vue") },
+      { path: "home", component: () => import("pages/TodoApp.vue") },
     ],
   },
 
