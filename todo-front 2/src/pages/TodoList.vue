@@ -55,7 +55,7 @@
               <q-btn round outline color="orange" size="7px"> </q-btn>
             </q-item-section>
             <q-item-section class="col"
-              ><div>{{ task }}</div></q-item-section
+              ><div>{{ task.name }}</div></q-item-section
             >
 
             <q-icon name="expand_more" />
@@ -126,7 +126,13 @@ export default {
   data() {
     return {
       newTask: "",
-      tasks: Array.from({ length: 5 }, (_, i) => `Task ${i + 1}`),
+      tasks: Array.from({ length: 5 }, (_, i) => {
+        return {
+          id: i + 1,
+          name: `Task ${i+1}`,
+          completed: false,
+        };
+      }),
       currentDate: "",
       offset: 5, // 스크롤 도달 시점
       description: "",
@@ -153,11 +159,19 @@ export default {
     deleteTask(index) {
       this.tasks.splice(index, 1);
     },
+    // 추가
     addTask() {
       if (this.newTask.trim() !== "") {
-        this.tasks.unshift(this.newTask.trim());
+        this.addNewTask(this.newTask.trim());
         this.newTask = "";
       }
+    },
+    addNewTask(task) {
+      this.tasks.unshift({
+        id: this.tasks.length + 1,
+        name: task,
+        completed: false,
+      });
     },
     handleUpdate(newValue) {
       this.description = newValue;
@@ -254,5 +268,4 @@ export default {
   font-size: 10px;
   max-width: 262px;
 }
-
 </style>
