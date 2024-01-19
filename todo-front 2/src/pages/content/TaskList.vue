@@ -8,6 +8,7 @@
         @delete="deleteTask(id)"
         @updateDescription="updateDescription"
         @deleteDescription="deleteDescription"
+     
       />
     </q-list>
   </q-container>
@@ -25,6 +26,8 @@ export default {
     return {};
   },
   methods: {
+    // taskClick({id,completed}){
+    // },
     updateDescription({ id, description }) {
       const task = this.tasks.find((task) => task.id === id);
       if (task) {

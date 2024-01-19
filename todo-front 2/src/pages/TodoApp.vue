@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-ma-xl">
+  <q-page class="q-ma-xl column">
     <!-- 이동버튼 -->
     <q-nav class="q-mb-md">
       <router-link to="sign">
@@ -25,7 +25,7 @@
 <script>
 import TaskList from "./content/TaskList.vue";
 import TodoHeader from "./content/TodoHeader.vue";
-import TodoHistory from "./content/TodoHistory.vue";
+import TodoHistory from "./content/history/TodoHistory.vue";
 
 export default {
   data() {

@@ -2,21 +2,24 @@
   <q-container>
     <q-scroll-area style="height: 230px; max-width: 300px">
       <div class="q-pa-lg row no-wrap q-gutter-xl">
-        <q-list v-for="n in 16" :key="n">
-          <div class="history">
-            <!-- 날짜 -->
-            <div class="q-ml-sm col column">
-              <span class="q-my-sm q-ml-md text-orange">2023.12.1</span>
-              <q-separator inset color="orange" />
-            </div>
-            <!-- 수행여부 -->
-            <div class="col q-ml-sm q-mt-lg">
-              <div class="q-my-sm q-ml-md flex column">
+        <q-list v-for="n in 2" :key="n">
+          <q-btn dense rounded unelevated @click="toggleLayout(n)">
+            <!-- TodoPopup  -->
+            <TodoPopup :dialogVisible="dialogVisible[n]" />
+
+            <div class="column history">
+              <!-- 날짜 -->
+              <div class="col-4">
+                <div class="q-ma-sm text-orange">2023.12.1</div>
+                <q-separator inset color="orange" />
+              </div>
+              <!-- 수행여부 -->
+              <div class="col q-mt-sm">
                 <div class="complete">Total: 5</div>
                 <div class="complete">Complete: 5</div>
               </div>
             </div>
-          </div>
+          </q-btn>
         </q-list>
       </div>
     </q-scroll-area>
@@ -24,7 +27,20 @@
 </template>
 
 <script>
-export default {};
+import TodoPopup from "./TodoPopup.vue";
+export default {
+  components: { TodoPopup },
+  data() {
+    return {
+      dialogVisible: {},
+    };
+  },
+  methods: {
+    toggleLayout(n) {
+      this.dialogVisible[n] = !this.dialogVisible[n];
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -39,28 +55,6 @@ export default {};
   height: 165px;
   border-radius: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.q-popup-edit__buttons {
-  background-color: beige;
-}
-
-.popup-title {
-  margin-bottom: 5px;
-  height: 50px;
-}
-
-.q-field__native {
-  height: 45px;
-}
-
-.q-dialog__title {
-  font-size: 10px;
-}
-
-.popup-title {
-  font-size: 10px;
-  max-width: 262px;
 }
 
 .tag {
