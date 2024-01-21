@@ -1,6 +1,6 @@
-package com.gdsc.todo.repository;
+package com.gdsc.todo.task;
 
-import com.gdsc.todo.domain.Todo;
+import com.gdsc.todo.task.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

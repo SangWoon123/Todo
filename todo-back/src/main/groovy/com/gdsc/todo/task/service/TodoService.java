@@ -1,16 +1,15 @@
-package com.gdsc.todo.service;
+package com.gdsc.todo.task;
 
-import com.gdsc.todo.domain.Todo;
-import com.gdsc.todo.domain.TodoHistory;
-import com.gdsc.todo.dto.request.TodoRequest;
-import com.gdsc.todo.dto.response.TodoResponse;
-import com.gdsc.todo.repository.TodoRepository;
+import com.gdsc.todo.task.Todo;
+import com.gdsc.todo.task.TodoRequest;
+import com.gdsc.todo.task.TodoResponse;
+import com.gdsc.todo.history.service.TodoHistoryService;
+import com.gdsc.todo.task.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -1,6 +1,5 @@
-package com.gdsc.todo.dto.response;
+package com.gdsc.todo.task;
 
-import com.gdsc.todo.domain.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

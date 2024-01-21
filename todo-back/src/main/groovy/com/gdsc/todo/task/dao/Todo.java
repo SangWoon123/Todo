@@ -1,8 +1,8 @@
-package com.gdsc.todo.domain;
+package com.gdsc.todo.task;
 
+import com.gdsc.todo.history.domain.TodoHistory;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
