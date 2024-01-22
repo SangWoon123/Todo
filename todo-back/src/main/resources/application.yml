@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/todoapp
-    username: root
-    password: 1234
+    url: ${db-url}
+    username: ${root}
+    password: ${db-password}
 
 
   jpa:
@@ -15,5 +15,10 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+  profiles:
+    include: oauth
 
-
+jwt:
+  secret: "SecuritySpringZVBsdksnfBOOTdkwlranjswlahfmrpTwlaksduftlaglrhdqngotjmasterrkehldjdiwlzz"
+  header: Authorization
+  expiration: 43200
