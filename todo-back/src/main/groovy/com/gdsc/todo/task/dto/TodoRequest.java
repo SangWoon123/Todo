@@ -1,4 +1,4 @@
-package com.gdsc.todo.task;
+package com.gdsc.todo.task.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

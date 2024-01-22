@@ -1,5 +1,8 @@
-package com.gdsc.todo.task;
+package com.gdsc.todo.task.api;
 
+import com.gdsc.todo.task.dto.TodoRequest;
+import com.gdsc.todo.task.dto.TodoResponse;
+import com.gdsc.todo.task.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

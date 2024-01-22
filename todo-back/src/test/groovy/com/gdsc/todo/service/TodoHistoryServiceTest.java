@@ -1,12 +1,12 @@
 package com.gdsc.todo.service;
 
-import com.gdsc.todo.domain.Todo;
-import com.gdsc.todo.domain.TodoHistory;
-import com.gdsc.todo.dto.response.TodoHistoryResponse;
-import com.gdsc.todo.repository.TodoHistoryRepository;
-import com.gdsc.todo.repository.TodoRepository;
+import com.gdsc.todo.task.dao.Todo;
+import com.gdsc.todo.history.domain.TodoHistory;
+import com.gdsc.todo.history.service.TodoHistoryService;
+import com.gdsc.todo.history.repository.TodoHistoryRepository;
+import com.gdsc.todo.task.repository.TodoRepository;
+import com.gdsc.todo.task.service.TodoService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

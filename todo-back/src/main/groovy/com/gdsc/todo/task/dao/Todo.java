@@ -1,4 +1,4 @@
-package com.gdsc.todo.task;
+package com.gdsc.todo.task.dao;
 
 import com.gdsc.todo.history.domain.TodoHistory;
 import jakarta.persistence.*;

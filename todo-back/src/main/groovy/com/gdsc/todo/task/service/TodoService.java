@@ -1,10 +1,10 @@
-package com.gdsc.todo.task;
+package com.gdsc.todo.task.service;
 
-import com.gdsc.todo.task.Todo;
-import com.gdsc.todo.task.TodoRequest;
-import com.gdsc.todo.task.TodoResponse;
+import com.gdsc.todo.task.repository.TodoRepository;
+import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.service.TodoHistoryService;
-import com.gdsc.todo.task.TodoRepository;
+import com.gdsc.todo.task.dto.TodoRequest;
+import com.gdsc.todo.task.dto.TodoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
