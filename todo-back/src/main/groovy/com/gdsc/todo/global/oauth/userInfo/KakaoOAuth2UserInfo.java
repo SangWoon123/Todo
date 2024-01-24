@@ -1,4 +1,4 @@
-package com.gdsc.todo.global.oauth;
+package com.gdsc.todo.global.oauth.userInfo;
 
 import com.gdsc.todo.global.oauth.userInfo.OAuth2UserInfo;
 
