@@ -1,6 +1,8 @@
 package com.gdsc.todo.global.oauth;
 
 import com.gdsc.todo.global.details.Role;
+import com.gdsc.todo.global.oauth.userInfo.KakaoOAuth2UserInfo;
+import com.gdsc.todo.global.oauth.userInfo.NaverOAuth2UserInfo;
 import com.gdsc.todo.global.oauth.userInfo.OAuth2UserInfo;
 import com.gdsc.todo.user.dao.SocialType;
 import com.gdsc.todo.user.dao.User;
@@ -8,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Getter
 public class OAuthAttributes {
@@ -27,7 +28,15 @@ public class OAuthAttributes {
         if (socialType == SocialType.KAKAO) {
             return ofKakao(userNameAttributeName, attributes);
         }
-        return null;
+
+        return ofNaver(userNameAttributeName,attributes);
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .nameAttributeKey(userNameAttributeName)
+                .oauth2UserInfo(new NaverOAuth2UserInfo(attributes))
+                .build();
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
