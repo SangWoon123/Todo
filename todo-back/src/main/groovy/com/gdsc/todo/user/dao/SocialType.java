@@ -13,7 +13,7 @@ public enum SocialType {
     private final String socialName;
 
     public static SocialType getSocialType(String registrationId) {
-        if(KAKAO.socialName.equals(registrationId)) {
+        if(KAKAO.socialName.equals(registrationId.toUpperCase())) {
             return SocialType.KAKAO;
         }
         return SocialType.GOOGLE;
