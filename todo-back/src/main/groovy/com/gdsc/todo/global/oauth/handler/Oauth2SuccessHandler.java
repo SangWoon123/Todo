@@ -26,16 +26,16 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("로그인성공");
-        CustomOAuth2User oAuth2User= (CustomOAuth2User) authentication.getPrincipal();
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         // accessToken
         String accessToken = tokenService.generateAccessToken(oAuth2User.getEmail());
-        String refreshToken=tokenService.generateAccessToken(oAuth2User.getEmail());
+        String refreshToken = tokenService.generateRefreshToken(oAuth2User.getEmail());
 
 
-        log.info("token생성 ={}",accessToken);
-        log.info("refresh생성 ={}",refreshToken);
+        log.info("token생성 ={}", accessToken);
+        log.info("refresh생성 ={}", refreshToken);
 
-        tokenService.sendAccessAndRefreshToken(response,accessToken,refreshToken);
+        tokenService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         refreshTokenService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
     }
 }

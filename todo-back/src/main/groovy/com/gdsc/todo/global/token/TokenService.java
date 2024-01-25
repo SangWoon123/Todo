@@ -32,15 +32,15 @@ public class TokenService {
                         @Value("${jwt.access-expiration}") long accessExpiration,
                         @Value("${jwt.refresh-expiration}") long refreshExpiration,
                         @Value("${jwt.access-header}") String accessHeader,
-                        @Value("${jwt.refresh-header}")String refreshHeader) {
+                        @Value("${jwt.refresh-header}") String refreshHeader) {
         this.SECRET_KEY = SECRET_KEY;
         this.accessExpiration = accessExpiration;
-        this.refreshExpiration=refreshExpiration;
+        this.refreshExpiration = refreshExpiration;
         this.accessHeader = accessHeader;
-        this.refreshHeader=refreshHeader;
+        this.refreshHeader = refreshHeader;
     }
 
-    private String generateToken(long expiration, String email){
+    private String generateToken(long expiration, String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -51,11 +51,11 @@ public class TokenService {
 
     // JWT 토큰 생성
     public String generateAccessToken(String email) {
-        return generateToken(accessExpiration,email);
+        return generateToken(accessExpiration, email);
     }
 
-    public String generateRefresh(String email){
-        return generateToken(refreshExpiration,email);
+    public String generateRefreshToken(String email) {
+        return generateToken(refreshExpiration, email);
     }
 
     // JWT 토큰에서 인증 정보 조회
@@ -99,8 +99,8 @@ public class TokenService {
     }
 
     public void sendAccessAndRefreshToken(HttpServletResponse response,
-                                String accessToken,
-                                String refreshToken
+                                          String accessToken,
+                                          String refreshToken
     ) {
         response.setStatus(HttpServletResponse.SC_OK);
 
