@@ -16,9 +16,5 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
   profiles:
-    include: oauth
+    include: oauth,jwt
 
-jwt:
-  secret: "SecuritySpringZVBsdksnfBOOTdkwlranjswlahfmrpTwlaksduftlaglrhdqngotjmasterrkehldjdiwlzz"
-  header: Authorization
-  expiration: 43200
