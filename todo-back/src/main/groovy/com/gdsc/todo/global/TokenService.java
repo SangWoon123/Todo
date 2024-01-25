@@ -1,12 +1,16 @@
 package com.gdsc.todo.global;
 
+import com.gdsc.todo.global.error.ErrorCode;
+import com.sun.jdi.request.InvalidRequestStateException;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,18 +63,16 @@ public class TokenService {
         try {
             Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+        } catch (SignatureException e) {
+            throw new InvalidRequestStateException(ErrorCode.INVALID_JWT_SIGNATURE.getMessage());
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            throw new InvalidRequestStateException(ErrorCode.EXPIRED_TOKEN.getMessage());
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            throw new InvalidRequestStateException(ErrorCode.INVALID_TOKEN.getMessage());
+        } catch (MalformedJwtException e) {
+            throw new InvalidRequestStateException(ErrorCode.INVALID_PERMISSION.getMessage());
         }
-        return false;
     }
-
 
     public String resolveSubject(String token) {
         Claims claim = Jwts.parserBuilder()
