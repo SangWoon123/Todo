@@ -1,4 +1,4 @@
-package com.gdsc.todo.global;
+package com.gdsc.todo.global.token;
 
 import com.gdsc.todo.global.error.ErrorCode;
 import com.sun.jdi.request.InvalidRequestStateException;
@@ -23,25 +23,39 @@ public class TokenService {
 
     private final String SECRET_KEY;
     private String accessHeader;
+    private String refreshHeader;
     private long accessExpiration;
+    private long refreshExpiration;
     private static final String BEARER = "Bearer ";
 
     public TokenService(@Value("${jwt.secret}") String SECRET_KEY,
-                        @Value("${jwt.expiration}") long accessExpiration,
-                        @Value("${jwt.header}") String accessHeader) {
+                        @Value("${jwt.access-expiration}") long accessExpiration,
+                        @Value("${jwt.refresh-expiration}") long refreshExpiration,
+                        @Value("${jwt.access-header}") String accessHeader,
+                        @Value("${jwt.refresh-header}")String refreshHeader) {
         this.SECRET_KEY = SECRET_KEY;
         this.accessExpiration = accessExpiration;
+        this.refreshExpiration=refreshExpiration;
         this.accessHeader = accessHeader;
+        this.refreshHeader=refreshHeader;
+    }
+
+    private String generateToken(long expiration, String email){
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // HS512과 비교했을때 본 서비스는 암호화 난이도를 낮게 설정
+                .compact();
     }
 
     // JWT 토큰 생성
     public String generateAccessToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // HS512과 비교했을때 본 서비스는 암호화 난이도를 낮게 설정
-                .compact();
+        return generateToken(accessExpiration,email);
+    }
+
+    public String generateRefresh(String email){
+        return generateToken(refreshExpiration,email);
     }
 
     // JWT 토큰에서 인증 정보 조회
@@ -84,16 +98,23 @@ public class TokenService {
         return claim.getSubject();
     }
 
-    public void sendAccessToken(HttpServletResponse response,
-                                String accessToken
+    public void sendAccessAndRefreshToken(HttpServletResponse response,
+                                String accessToken,
+                                String refreshToken
     ) {
         response.setStatus(HttpServletResponse.SC_OK);
 
         setAccessTokenHeader(response, accessToken);
+        setRefreshTokenHeader(response, refreshToken);
     }
 
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
         log.info("Access Token 헤더 설정");
         response.setHeader(accessHeader, BEARER + accessToken);
+    }
+
+    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
+        log.info("Refresh Token 헤더 설정");
+        response.setHeader(refreshHeader, BEARER + refreshToken);
     }
 }

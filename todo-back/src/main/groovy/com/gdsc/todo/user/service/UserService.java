@@ -1,6 +1,6 @@
 package com.gdsc.todo.user.service;
 
-import com.gdsc.todo.global.TokenService;
+import com.gdsc.todo.global.token.TokenService;
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.user.dao.User;
 import com.gdsc.todo.user.dto.UserDto;

@@ -1,6 +1,7 @@
 package com.gdsc.todo.user.dao;
 
 import com.gdsc.todo.global.details.Role;
+import com.gdsc.todo.global.token.dao.RefreshToken;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,4 +34,7 @@ public class User {
     private String socialId;
 
     private String imageUrl;
+
+    @OneToOne(mappedBy = "user")
+    private RefreshToken refreshToken;
 }

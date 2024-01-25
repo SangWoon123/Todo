@@ -1,7 +1,9 @@
 package com.gdsc.todo.global.oauth.handler;
 
-import com.gdsc.todo.global.TokenService;
+import com.gdsc.todo.global.token.RefreshTokenService;
+import com.gdsc.todo.global.token.TokenService;
 import com.gdsc.todo.global.oauth.CustomOAuth2User;
+import com.gdsc.todo.global.token.repository.RefreshTokenRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,14 +21,21 @@ import java.io.IOException;
 public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenService tokenService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("로그인성공");
         CustomOAuth2User oAuth2User= (CustomOAuth2User) authentication.getPrincipal();
-        log.info("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
         // accessToken
         String accessToken = tokenService.generateAccessToken(oAuth2User.getEmail());
-        tokenService.sendAccessToken(response,accessToken);
+        String refreshToken=tokenService.generateAccessToken(oAuth2User.getEmail());
+
+
+        log.info("token생성 ={}",accessToken);
+        log.info("refresh생성 ={}",refreshToken);
+
+        tokenService.sendAccessAndRefreshToken(response,accessToken,refreshToken);
+        refreshTokenService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
     }
 }
