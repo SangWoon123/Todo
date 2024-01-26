@@ -40,7 +40,7 @@ public class TokenService {
         this.refreshHeader = refreshHeader;
     }
 
-    private String generateToken(long expiration, String email) {
+    public String generateToken(long expiration, String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -57,10 +57,6 @@ public class TokenService {
     public String generateRefreshToken(String email) {
         return generateToken(refreshExpiration, email);
     }
-
-    // JWT 토큰에서 인증 정보 조회
-
-    // 토큰에서 회원 정보 추출
 
     // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
@@ -85,6 +81,8 @@ public class TokenService {
             throw new InvalidRequestStateException(ErrorCode.INVALID_TOKEN.getMessage());
         } catch (MalformedJwtException e) {
             throw new InvalidRequestStateException(ErrorCode.INVALID_PERMISSION.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRequestStateException(ErrorCode.NOT_ACCESS_TOKEN.getMessage());
         }
     }
 
