@@ -1,12 +1,13 @@
 package com.gdsc.todo.global.config;
 
-import com.gdsc.todo.global.token.TokenService;
 import com.gdsc.todo.global.details.CustomUserDetailsService;
+import com.gdsc.todo.global.token.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -29,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 헤더에서 추출한 token값이 맞는지 검증로직
         if(token !=null && tokenService.validateToken(token)){
+            log.info("토큰 검증 성공");
             Authentication authentication=getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -40,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String email = tokenService.resolveSubject(token);
 
         if(email !=null){
-            UserDetails userDetails=customUserDetailsService.loadUserByUsername(email);
+            UserDetails userDetails= customUserDetailsService.loadUserByUsername(email);
             return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         }
         return null;
