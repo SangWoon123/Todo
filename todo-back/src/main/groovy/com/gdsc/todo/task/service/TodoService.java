@@ -1,11 +1,15 @@
 package com.gdsc.todo.task.service;
 
+import com.gdsc.todo.global.details.CustomUser;
 import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.service.TodoHistoryService;
 import com.gdsc.todo.task.dto.TodoRequest;
 import com.gdsc.todo.task.dto.TodoResponse;
+import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +24,18 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
     private final TodoHistoryService historyService;
+    private final UserRepository userRepository;
 
-    public TodoResponse createTask(TodoRequest create) {
+    public TodoResponse createTask(CustomUser userDto,TodoRequest create) {
+        User user= userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+
         Todo task = Todo.builder()
                 .content(create.getContent())
                 .description(create.getDescription())
                 .today(LocalDate.now())
                 .done(false)
+                .user(user)
                 .build();
         Todo save = todoRepository.save(task);
 
@@ -34,9 +43,12 @@ public class TodoService {
         return newTask;
     }
 
-    public List<TodoResponse> getTodayTask(){
+    public List<TodoResponse> getTodayTask(CustomUser userDto){
+        User user= userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+
         LocalDate today=LocalDate.now();
-        List<Todo> todayTasks = todoRepository.findByToday(today);
+        List<Todo> todayTasks = todoRepository.findByTodayAndUser(today,user);
 
         return todayTasks.stream()
                 .map(TodoResponse::from)
@@ -44,8 +56,16 @@ public class TodoService {
     }
 
     @Transactional
-    public TodoResponse updateTask(Long taskId,TodoRequest update) {
+    public TodoResponse updateTask(CustomUser userDto,Long taskId,TodoRequest update) {
+        User user= userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+
         Todo task = todoRepository.getById(taskId);
+
+        if (!task.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("You are not the owner of this task");
+        }
+
         task.update(Optional.ofNullable(update.getContent()), Optional.ofNullable(update.getDescription()));
 
         // domain -> dto
@@ -54,7 +74,19 @@ public class TodoService {
         return updateTask;
     }
 
-    public void delete(Long taskId) {
+    public void deleteTask(CustomUser customUser,Long taskId) {
+        User user= userRepository.findByEmail(customUser.getEmail())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+
+        Todo task = todoRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        if (!task.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("You are not the owner of this task");
+        }
+
         todoRepository.deleteById(taskId);
     }
+
+
 }

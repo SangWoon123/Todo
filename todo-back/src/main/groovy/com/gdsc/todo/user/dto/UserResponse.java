@@ -6,5 +6,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserResponse {
-    private String accessToken;
+    private Long id;
+    private String loginId;
+    private String email;
+    private String password;
 }

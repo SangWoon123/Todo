@@ -1,6 +1,7 @@
 package com.gdsc.todo.task.dao;
 
 import com.gdsc.todo.history.domain.TodoHistory;
+import com.gdsc.todo.user.dao.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,10 @@ public class Todo{
     @ManyToOne
     @JoinColumn(name = "history_id")
     private TodoHistory history;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public void update(Optional<String> content, Optional<String> description){
         content.ifPresent(value -> this.content=value);
