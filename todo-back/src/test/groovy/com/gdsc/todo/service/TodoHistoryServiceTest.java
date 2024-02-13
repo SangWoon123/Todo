@@ -1,11 +1,15 @@
 package com.gdsc.todo.service;
 
+import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.history.service.TodoHistoryService;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
 import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.task.service.TodoService;
+import com.gdsc.todo.user.dao.SocialType;
+import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -26,11 +31,9 @@ class TodoHistoryServiceTest {
     @Autowired
     private TodoHistoryService historyService;
     @Autowired
-    private TodoService todoService;
+    private TodoRepository todoRepository;
     @Autowired
-    TodoRepository todoRepository;
-    @Autowired
-    TodoHistoryRepository historyRepository;
+    private TodoHistoryRepository historyRepository;
 
     private void createAndSaveTodoHistory(int i) {
         TodoHistory history = TodoHistory.builder()
