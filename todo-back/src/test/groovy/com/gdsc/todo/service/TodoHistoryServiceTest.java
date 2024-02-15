@@ -1,16 +1,17 @@
 package com.gdsc.todo.service;
 
 import com.gdsc.todo.global.details.Role;
-import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.domain.TodoHistory;
-import com.gdsc.todo.history.service.TodoHistoryService;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
+import com.gdsc.todo.history.service.TodoHistoryService;
+import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.task.repository.TodoRepository;
-import com.gdsc.todo.task.service.TodoService;
 import com.gdsc.todo.user.dao.SocialType;
 import com.gdsc.todo.user.dao.User;
 import com.gdsc.todo.user.repository.UserRepository;
+import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -34,27 +35,63 @@ class TodoHistoryServiceTest {
     private TodoRepository todoRepository;
     @Autowired
     private TodoHistoryRepository historyRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    private void createAndSaveTodoHistory(int i) {
-        TodoHistory history = TodoHistory.builder()
-                .day(LocalDate.now().minusDays(i))
-                .total(10L)
-                .complete(5L)
-                .todos(new ArrayList<>())
-                .build();
+    private User testUser;
+    private User testUser2;
 
-        historyRepository.save(history);
+    @BeforeEach
+    public void setUp() {
+        testUser = createUser("testEmail");
+        testUser2 = createUser("testEmail2");
     }
+
+    private User createUser(String email) {
+        User user = User.builder()
+                .username("test")
+                .role(Role.GUEST)
+                .email(email)
+                .profileImage("testURL")
+                .socialId("testSocial")
+                .socialType(SocialType.GOOGLE)
+                .build();
+        return userRepository.save(user);
+    }
+
+    private TodoHistory createAndSaveTodoHistory(int dayOffset, long total, long complete) {
+        TodoHistory history = TodoHistory.builder()
+                .day(LocalDate.now().minusDays(dayOffset))
+                .total(total)
+                .complete(complete)
+                .user(testUser)
+                .build();
+        historyRepository.save(history);
+        return history;
+    }
+
+    private Todo createAndSabeTodo(String content, String description, User user) {
+        Todo todo = Todo.builder()
+                .today(LocalDate.now().minusDays(1))
+                .content(content)
+                .description(description)
+                .done(false)
+                .completeTime(LocalDateTime.now().minusDays(1))
+                .user(user)
+                .build();
+        return todoRepository.save(todo);
+    }
+
 
     @Test
     @DisplayName("최근 7개 히스토리 가져오기")
     public void getRecentHistory() {
         //given
-        IntStream.range(0, 10).forEach(i -> createAndSaveTodoHistory(i));
-
+        IntStream.range(0, 10).forEach(i -> {
+            createAndSaveTodoHistory(i, 10L, 5L);
+        });
         //when
-        List<TodoHistory> recentHistory = historyRepository.findTop7ByOrderByDayDesc();
-
+        List<TodoHistory> recentHistory = historyRepository.findTop7ByUserOrderByDayDesc(testUser);
         //then
         Assertions.assertEquals(7, recentHistory.size());
     }
@@ -63,22 +100,36 @@ class TodoHistoryServiceTest {
     @DisplayName("자정이후 기록되는 todo목록")
     public void recordYesterdayTasksTest() {
         //given
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        Todo todo1 = Todo.builder()
-                .today(yesterday)
-                .content("운동하기")
-                .description("오후 2시 한강공원")
-                .done(false)
-                .completeTime(LocalDateTime.now().minusDays(1))
-                .build();
-        todoRepository.save(todo1);
+        createAndSabeTodo("운동하기", "오후 2시 한강공원", testUser);
 
         //when
         historyService.recordYesterdayTasks();
-
+        TodoHistory todoHistory = historyRepository.findByUser(testUser)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found"));
         //then
-        TodoHistory history = historyRepository.findByDay(yesterday).get();
-        Assertions.assertEquals(1, history.getTodos().size());
+        assertThat(todoHistory.getTodos()).hasSize(1);
+        assertThat(todoHistory.getTodos().get(0).getContent()).isEqualTo("운동하기");
+    }
+
+    @Test
+    @DisplayName("자정이후 기록되는 todo목록 (유저여러명일때 자신의 기록만 가져오는지)")
+    public void recordYesterdayTasksTest2() {
+        //given
+        createAndSabeTodo("운동하기", "오후 2시 한강공원", testUser);
+        createAndSabeTodo("장보기", "오후 5시 롯데마트", testUser2);
+
+        historyService.recordYesterdayTasks();
+
+        TodoHistory todoHistory = historyRepository.findByUser(testUser)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found"));
+
+        assertThat(todoHistory.getTodos()).hasSize(1);
+    }
+
+    @After("")
+    public void tearDown() {
+        todoRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 }
