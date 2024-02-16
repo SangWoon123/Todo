@@ -3,6 +3,8 @@ package com.gdsc.todo.global.config;
 import com.gdsc.todo.global.oauth.CustomOAuth2Service;
 import com.gdsc.todo.global.oauth.handler.OAuth2LoginFailureHandler;
 import com.gdsc.todo.global.oauth.handler.Oauth2SuccessHandler;
+import com.gdsc.todo.global.token.JwtAuthenticationFilter;
+import com.gdsc.todo.global.token.JwtExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,9 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests)->authorizeRequests
                         .requestMatchers(
-                                "/**"
+                                "/", "/swagger-ui/**",
+                                "**.html", "**.css", "**.js",
+                                "/swagger-resources/**", "/webjars/**", "/v3/api-docs/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated())

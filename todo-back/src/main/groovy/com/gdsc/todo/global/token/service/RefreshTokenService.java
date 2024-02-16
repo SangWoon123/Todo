@@ -1,4 +1,4 @@
-package com.gdsc.todo.global.token;
+package com.gdsc.todo.global.token.service;
 
 import com.gdsc.todo.global.token.dao.RefreshToken;
 import com.gdsc.todo.global.token.repository.RefreshTokenRepository;

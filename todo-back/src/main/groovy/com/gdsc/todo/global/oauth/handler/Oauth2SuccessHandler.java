@@ -1,9 +1,8 @@
 package com.gdsc.todo.global.oauth.handler;
 
-import com.gdsc.todo.global.token.RefreshTokenService;
-import com.gdsc.todo.global.token.TokenService;
+import com.gdsc.todo.global.token.service.RefreshTokenService;
+import com.gdsc.todo.global.token.service.TokenService;
 import com.gdsc.todo.global.oauth.CustomOAuth2User;
-import com.gdsc.todo.global.token.repository.RefreshTokenRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

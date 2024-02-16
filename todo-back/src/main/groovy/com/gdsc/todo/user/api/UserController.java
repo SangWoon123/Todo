@@ -1,40 +1,28 @@
 package com.gdsc.todo.user.api;
 
 import com.gdsc.todo.global.details.CustomUser;
-import com.gdsc.todo.user.dao.User;
-import com.gdsc.todo.user.dto.OAuth2Response;
-import com.gdsc.todo.user.dto.UserResponse;
 import com.gdsc.todo.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-
+@Tag(name = "User", description = "회원 API 문서")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class UserController {
-    private final UserService userService;
-
-    @GetMapping("/test")
+    @Operation(summary = "회원정보 확인")
+    @GetMapping()
     public ResponseEntity<?> oAuthTest(@AuthenticationPrincipal CustomUser principal){
         return new ResponseEntity<>(principal,HttpStatus.OK);
-    }
-
-    @GetMapping("/user")
-    public String getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUser username = (CustomUser) authentication.getPrincipal(); // 현재 사용자의 username을 가져옵니다.
-
-
-
-        return "현재 로그인한 사용자: " + username.getEmail();
     }
 
 }

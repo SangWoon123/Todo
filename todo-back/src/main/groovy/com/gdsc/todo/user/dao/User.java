@@ -2,6 +2,7 @@ package com.gdsc.todo.user.dao;
 
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.global.token.dao.RefreshToken;
+import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.task.dao.Todo;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,6 +40,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Todo> todos=new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<TodoHistory> todoHistories=new ArrayList<>();
+
     @Builder
     public User(String username, String email, Role role, SocialType socialType, String socialId, String profileImage, RefreshToken refreshToken, List<Todo> todos) {
         this.username = username;
@@ -49,9 +53,13 @@ public class User {
         this.profileImage = profileImage;
         this.refreshToken = refreshToken;
         this.todos = new ArrayList<>();
+        this.todoHistories=new ArrayList<>();
     }
 
     public void addTodo(Todo todo) {
         this.todos.add(todo);
+    }
+    public void addTodoHistory(TodoHistory history) {
+        this.todoHistories.add(history);
     }
 }

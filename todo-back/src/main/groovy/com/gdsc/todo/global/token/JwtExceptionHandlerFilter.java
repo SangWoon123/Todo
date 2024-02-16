@@ -1,4 +1,4 @@
-package com.gdsc.todo.global.config;
+package com.gdsc.todo.global.token;
 
 import com.gdsc.todo.global.error.ErrorResponse;
 import com.sun.jdi.request.InvalidRequestStateException;

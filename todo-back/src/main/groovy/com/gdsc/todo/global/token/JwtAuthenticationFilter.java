@@ -1,7 +1,7 @@
-package com.gdsc.todo.global.config;
+package com.gdsc.todo.global.token;
 
 import com.gdsc.todo.global.details.CustomUserDetailsService;
-import com.gdsc.todo.global.token.TokenService;
+import com.gdsc.todo.global.token.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
