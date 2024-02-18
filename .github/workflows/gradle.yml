@@ -27,16 +27,26 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
+
+    ## gradle caching
+    - name: Gradle 캐싱
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+      
     - name: Make application.yml
       run: |
           cd ./src/main
           mkdir resources
           cd ./resources
           touch ./application.yml
-          touch ./application-aws.yml
           touch ./application-oauth.yml
-          touch ./application-app.yml
+          touch ./application-jwt.yml
           echo "$APPLICATION_OAUTH" > ./application-oauth.yml
           echo "$APPLICATION_JWT" > ./application-jwt.yml
           echo "$APPLICATION" > ./application.yml
