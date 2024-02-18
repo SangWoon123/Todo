@@ -58,7 +58,7 @@ jobs:
 
     - name: Gradle 권한 부여
       run: |
-        ls
+        cd todo-back
         chmod +x gradlew
 
     - name: Gradle로 빌드 실행
