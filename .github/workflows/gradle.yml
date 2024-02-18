@@ -62,7 +62,9 @@ jobs:
         chmod +x gradlew
 
     - name: Gradle로 빌드 실행
-      run: ./gradlew bootjar
+      run: |
+        cd todo-back
+        ./gradlew bootjar
     # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
 
