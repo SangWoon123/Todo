@@ -44,7 +44,6 @@ jobs:
           cd todo-back
           cd ./src/main
           cd ./resources
-          ls
           touch ./application.yml
           touch ./application-oauth.yml
           touch ./application-jwt.yml
@@ -58,7 +57,9 @@ jobs:
       shell: bash
 
     - name: Gradle 권한 부여
-      run: chmod +x gradlew
+      run: |
+        ls
+        chmod +x gradlew
 
     - name: Gradle로 빌드 실행
       run: ./gradlew bootjar
