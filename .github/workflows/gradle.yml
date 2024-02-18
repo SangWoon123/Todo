@@ -43,6 +43,7 @@ jobs:
       run: |
           cd todo-back
           cd ./src/main
+          ls
           mkdir resources
           cd ./resources
           touch ./application.yml
