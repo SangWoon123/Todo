@@ -41,7 +41,7 @@ jobs:
       
     - name: Make application.yml
       run: |
-          ls
+          cd todo-back
           cd ./src/main
           mkdir resources
           cd ./resources
