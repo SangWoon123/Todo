@@ -41,6 +41,7 @@ jobs:
       
     - name: Make application.yml
       run: |
+          ls
           cd ./src/main
           mkdir resources
           cd ./resources
