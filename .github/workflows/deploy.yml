@@ -68,7 +68,7 @@ jobs:
     - name: zip file 생성
       run: |
         mkdir deploy
-        cp ./build/libs/*.jar ./deploy/
+        cp ./todo-back/build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
         
     # AWS에 연결해줍니다.
