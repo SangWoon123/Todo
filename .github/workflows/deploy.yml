@@ -95,9 +95,9 @@ jobs:
       run: |
         cd todo-back
         aws deploy create-deployment \
-        --application-name backend-deploy-group \
+        --application-name todo-app \
         --deployment-config-name CodeDeployDefault.OneAtATime \
-        --deployment-group-name backend-deploy-group \
+        --deployment-group-name todo-app \
         --s3-location bucket=todo-springboot-build,bundleType=zip,key=spring-build.zip
           
     # 빌드 성공 & 실패 여부를 Slack 알람으로 발송합니다.
