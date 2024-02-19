@@ -93,7 +93,7 @@ jobs:
     # CodeDelploy에 배포를 요청합니다.
     - name: Code Deploy 배포 요청
       run: |
-        ls
+        cd todo-back
         aws deploy create-deployment --application-name backend-deploy-group
         --deployment-config-name CodeDeployDefault.OneAtATime
         --deployment-group-name backend-deploy-group
