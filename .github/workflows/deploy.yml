@@ -67,8 +67,13 @@ jobs:
     # 배포에 필요한 여러 설정 파일과 프로젝트 빌드파일을 zip 파일로 모아줍니다.
     - name: zip file 생성
       run: |
+        cd todo-back
         mkdir deploy
-        cp ./todo-back/build/libs/*.jar ./deploy/
+        cp ./docker/docker-compose.blue.yml ./deploy/
+        cp ./docker/docker-compose.green.yml ./deploy/
+        cp ./appspec.yml ./deploy/
+        cp ./docker/Dockerfile ./deploy/
+        cp ./build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
         
     # AWS에 연결해줍니다.
@@ -83,5 +88,5 @@ jobs:
     - name: S3에 프로젝트 업로드
       run: |
         aws s3 cp \
-        --region ap-northeast-2 \
+        --region ap-northeast-1 \
         ./spring-build.zip s3://todo-deploy
