@@ -74,7 +74,6 @@ jobs:
     # S3에 프로젝트를 업로드 합니다.
     - name: S3에 프로젝트 업로드
       run: |
-        cd todo-back
         aws s3 cp \
         --region ap-northeast-1 \
-        ./spring-build.zip s3://backend-rex-bucket
+        ./spring-build.zip s3://todo-deploy
