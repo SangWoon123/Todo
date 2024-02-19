@@ -68,7 +68,6 @@ jobs:
     - name: zip file 생성
       run: |
         mkdir deploy
-        cp ./appspec.yml ./deploy/
         cp ./build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
         
