@@ -87,6 +87,12 @@ jobs:
     # S3에 프로젝트를 업로드 합니다.
     - name: S3에 프로젝트 업로드
       run: |
+        sudo apt update  # 시스템 패키지 업데이트
+        sudo apt install awscli  # AWS CLI 설치
+        
+        aws configure  # AWS 계정 정보 설정 (access key, secret key, region 등)
+        
         aws s3 cp \
-        --region ap-northeast-1 \
-        ./spring-build.zip s3://todo-deploy
+          --region ap-northeast-1 \
+          ./spring-build.zip s3://todo-deploy
+
