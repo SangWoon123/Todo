@@ -3,7 +3,7 @@
 # 작업 디렉토리 변경
 cd /home/ubuntu/app
 # 환경변수 DOCKER_APP_NAME 설정
-DOCKER_APP_NAME= todo-back
+DOCKER_APP_NAME= todo_back
 
 
 # 실행중인 blue가 있는지 확인
