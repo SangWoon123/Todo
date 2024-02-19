@@ -95,7 +95,7 @@ jobs:
       run: aws deploy create-deployment --application-name backend-deploy-group
         --deployment-config-name CodeDeployDefault.OneAtATime
         --deployment-group-name backend-deploy-group
-        --s3-location bucket=backend-rex-bucket,bundleType=zip,key=spring-build.zip
+        --s3-location bucket=todo-springboot-build,bundleType=zip,key=spring-build.zip
           
     # 빌드 성공 & 실패 여부를 Slack 알람으로 발송합니다.
     - name: Slack 알람 발송
