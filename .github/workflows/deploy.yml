@@ -69,10 +69,10 @@ jobs:
       run: |
         cd todo-back
         mkdir deploy
-        cp ./docker/docker-compose.blue.yml ./deploy/
-        cp ./docker/docker-compose.green.yml ./deploy/
+        cp ./docker-compose.blue.yml ./deploy/
+        cp ./docker-compose.green.yml ./deploy/
         cp ./appspec.yml ./deploy/
-        cp ./docker/Dockerfile ./deploy/
+        cp ./Dockerfile ./deploy/
         cp ./scripts/*.sh ./deploy/
         cp ./build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
