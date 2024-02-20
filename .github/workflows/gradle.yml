@@ -45,15 +45,18 @@ jobs:
           cd ./src/main
           cd ./resources
           touch ./application.yml
+          touch ./application-runtime.yml
           touch ./application-oauth.yml
           touch ./application-jwt.yml
           echo "$APPLICATION_OAUTH" > ./application-oauth.yml
           echo "$APPLICATION_JWT" > ./application-jwt.yml
+          echo "$APPLICATION_RUNTIME" > ./application-runtime.yml
           echo "$APPLICATION" > ./application.yml
       env:
         APPLICATION_OAUTH: ${{ secrets.APPLICATION_OAUTH }}
         APPLICATION_JWT: ${{ secrets.APPLICATION_JWT }}
         APPLICATION: ${{ secrets.APPLICATION }}
+        APPLICATION_RUNTIME: ${{ secrets.APPLICATION_RUNTIME }}
       shell: bash
 
     - name: Gradle 권한 부여
