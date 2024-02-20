@@ -41,6 +41,7 @@ jobs:
       run: |
           cd todo-back
           cd ./src/main
+          mkdir resources
           cd ./resources
           touch ./application.yml
           touch ./application-oauth.yml
