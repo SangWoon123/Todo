@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://todo-database.cdiakyeo0iy0.us-east-1.rds.amazonaws.com:3306/todoapp
+    username: root
+    password: rlatkddns1234!

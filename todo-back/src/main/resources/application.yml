@@ -1,11 +1,4 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${db-url}
-    username: ${root}
-    password: ${db-password}
-
-
   jpa:
     show-sql: true
     hibernate:
@@ -16,6 +9,6 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
   profiles:
-    include: oauth,jwt
+    include: oauth,jwt,runtime
 
 
