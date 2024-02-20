@@ -77,29 +77,29 @@ jobs:
         cp ./build/libs/*.jar ./deploy/
         zip -r -qq -j ./spring-build.zip ./deploy
         
-    # # AWS에 연결해줍니다.
-    # - name: AWS 연결
-    #   uses: aws-actions/configure-aws-credentials@v1
-    #   with:
-    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: ${{ secrets.AWS_REGION }}
+    # AWS에 연결해줍니다.
+    - name: AWS 연결
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
-    # # S3에 프로젝트를 업로드 합니다.
-    # - name: S3에 프로젝트 업로드
-    #   run: |
-    #     aws s3 cp \
-    #       --region ap-northeast-1 \
-    #       ./todo-back/spring-build.zip s3://todo-springboot-build
-    # # CodeDelploy에 배포를 요청합니다.
-    # - name: Code Deploy 배포 요청
-    #   run: |
-    #     cd todo-back
-    #     aws deploy create-deployment \
-    #     --application-name MyTodo \
-    #     --deployment-config-name CodeDeployDefault.OneAtATime \
-    #     --deployment-group-name MyTodo \
-    #     --s3-location bucket=todo-springboot-build,bundleType=zip,key=spring-build.zip
+    # S3에 프로젝트를 업로드 합니다.
+    - name: S3에 프로젝트 업로드
+      run: |
+        aws s3 cp \
+          --region ap-northeast-1 \
+          ./todo-back/spring-build.zip s3://todo-springboot-build
+    # CodeDelploy에 배포를 요청합니다.
+    - name: Code Deploy 배포 요청
+      run: |
+        cd todo-back
+        aws deploy create-deployment \
+        --application-name MyTodo \
+        --deployment-config-name CodeDeployDefault.OneAtATime \
+        --deployment-group-name MyTodo \
+        --s3-location bucket=todo-springboot-build,bundleType=zip,key=spring-build.zip
           
     # 빌드 성공 & 실패 여부를 Slack 알람으로 발송합니다.
     - name: Slack 알람 발송
