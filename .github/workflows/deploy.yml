@@ -28,7 +28,9 @@ jobs:
 
     # Gradle을 캐싱해둡니다 -> 빌드 속도가 증가하는 효과가 있습니다.
     - name: Gradle 캐싱
-      run: ./gradlew clean build
+      run: |
+        cd todo-back
+       ./gradlew clean build
 
     - name: Make application.yml
       run: |
