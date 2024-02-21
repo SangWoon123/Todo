@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
+application-runtime.yml
 application-oauth.yml
 application-jwt.yml
-application-runtime.yml
