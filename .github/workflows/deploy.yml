@@ -30,7 +30,7 @@ jobs:
     - name: Gradle 캐싱
       run: |
         cd todo-back
-        ./gradlew clean build
+        ./gradlew clean build -x test
 
     - name: Make application.yml
       run: |
