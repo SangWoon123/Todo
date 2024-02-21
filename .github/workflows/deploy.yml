@@ -28,14 +28,7 @@ jobs:
 
     # Gradle을 캐싱해둡니다 -> 빌드 속도가 증가하는 효과가 있습니다.
     - name: Gradle 캐싱
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-                ${{ runner.os }}-gradle-
+      run: ./gradlew clean build
 
     - name: Make application.yml
       run: |
