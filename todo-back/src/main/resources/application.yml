@@ -2,7 +2,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
       hibernate:
@@ -10,5 +10,4 @@ spring:
     defer-datasource-initialization: true
   profiles:
     include: oauth,jwt,runtime
-
 
