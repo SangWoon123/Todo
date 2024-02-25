@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
@@ -35,6 +36,17 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         log.info("refresh생성 ={}", refreshToken);
 
         tokenService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+
         refreshTokenService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+
+        String url=makeRedirectUrl(accessToken,refreshToken);
+        getRedirectStrategy().sendRedirect(request,response,url);
+    }
+
+    private String makeRedirectUrl(String accessToken,String refreshToken) {
+        return UriComponentsBuilder.fromUriString("http://localhost:9000/home/redirect")
+                .queryParam("accessToken",accessToken)
+                .queryParam("refreshToken",refreshToken)
+                .build().toUriString();
     }
 }
