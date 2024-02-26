@@ -35,13 +35,20 @@ public class TodoController {
         return new ResponseEntity<>(todayTasks,HttpStatus.OK);
     }
 
-
     @Operation(summary = "Todo 목록 수정")
     @PatchMapping("/{taskId}")
     public ResponseEntity<TodoResponse> updateTask(@AuthenticationPrincipal CustomUser userDto,@PathVariable("taskId") Long taskId, @RequestBody TodoRequest update){
         TodoResponse updateTask = todoService.updateTask(userDto,taskId, update);
         return new ResponseEntity<>(updateTask,HttpStatus.ACCEPTED);
     }
+
+    @Operation(summary = "Todo 완료")
+    @GetMapping("/complete/{taskId}")
+    public ResponseEntity<?> completeTask(@AuthenticationPrincipal CustomUser userDto,@PathVariable("taskId") Long taskId){
+        TodoResponse updateTask = todoService.completeTask(userDto, taskId);
+        return new ResponseEntity<>(updateTask,HttpStatus.OK);
+    }
+
     @Operation(summary = "Todo 목록 삭제")
     @DeleteMapping("/{taskId}")
     public ResponseEntity<?> deleteTask(@AuthenticationPrincipal CustomUser userDto,@PathVariable("taskId") Long taskId){

@@ -42,4 +42,14 @@ public class Todo{
         content.ifPresent(value -> this.content=value);
         description.ifPresent(value->this.description=value);
     }
+
+    public void toggleComplete() {
+        if (done) {
+            this.done = false;
+            this.completeTime = null;
+        } else {
+            this.done = true;
+            this.completeTime = LocalDateTime.now();
+        }
+    }
 }

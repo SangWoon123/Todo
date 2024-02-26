@@ -88,5 +88,22 @@ public class TodoService {
         todoRepository.deleteById(taskId);
     }
 
+    @Transactional
+    public TodoResponse completeTask(CustomUser customUser, Long taskId) {
+        User user= userRepository.findByEmail(customUser.getEmail())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
 
+        Todo task = todoRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        if (!task.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("You are not the owner of this task");
+        }
+
+        task.toggleComplete();
+
+        TodoResponse updateTask = TodoResponse.from(task);
+
+        return updateTask;
+    }
 }

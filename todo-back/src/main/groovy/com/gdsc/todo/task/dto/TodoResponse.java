@@ -17,6 +17,7 @@ public class TodoResponse {
     private String content;
     private String description;
     private LocalDate today;
+    private boolean done;
     private LocalDateTime completeTime;
 
     public static TodoResponse from(Todo todo) {
@@ -25,6 +26,7 @@ public class TodoResponse {
                 .content(todo.getContent())
                 .today(todo.getToday())
                 .description(todo.getDescription())
+                .done(todo.isDone())
                 .completeTime(todo.getCompleteTime())
                 .build();
     }
