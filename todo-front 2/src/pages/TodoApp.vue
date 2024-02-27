@@ -13,8 +13,8 @@
       </router-link>
     </q-nav>
 
+     <!-- 헤더 -->
     <TodoHeader @add-task="addTask" />
-
     <!-- 메인컨텐츠 -->
     <TaskList :tasks="tasks" @delete-task="deleteTask" />
     <!-- Todo 히스토리 -->

@@ -2,21 +2,21 @@
   <q-container>
     <q-scroll-area style="height: 230px; max-width: 300px">
       <div class="q-pa-lg row no-wrap q-gutter-xl">
-        <q-list v-for="n in 2" :key="n">
+        <q-list v-for="(data, n) in store.historys" :key="n">
           <q-btn dense rounded unelevated @click="toggleLayout(n)">
             <!-- TodoPopup  -->
-            <TodoPopup :dialogVisible="dialogVisible[n]" />
+            <TodoPopup :dialogVisible="dialogVisible[n]" :historys="data.todos" />
 
             <div class="column history">
               <!-- 날짜 -->
               <div class="col-4">
-                <div class="q-ma-sm text-orange">2023.12.1</div>
+                <div class="q-ma-sm text-orange">{{ data.day }}</div>
                 <q-separator inset color="orange" />
               </div>
               <!-- 수행여부 -->
               <div class="col q-mt-sm">
-                <div class="complete">Total: 5</div>
-                <div class="complete">Complete: 5</div>
+                <div class="complete">Total: {{ data.total }}</div>
+                <div class="complete">Complete: {{ data.complete }}</div>
               </div>
             </div>
           </q-btn>
@@ -28,17 +28,29 @@
 
 <script>
 import TodoPopup from "./TodoPopup.vue";
+import { userTaskStore } from "src/stores/storage";
+
 export default {
   components: { TodoPopup },
   data() {
     return {
       dialogVisible: {},
+      datas: {},
     };
   },
   methods: {
     toggleLayout(n) {
       this.dialogVisible[n] = !this.dialogVisible[n];
     },
+  },
+  created() {
+    this.store.getHistory();
+  },
+  setup() {
+    const store = userTaskStore();
+    return {
+      store,
+    };
   },
 };
 </script>

@@ -2,23 +2,23 @@
   <q-item class="todo-box">
     <!-- check 버튼 -->
     <q-item-section class="col-1 q-mr-sm">
-      <q-checkbox
-        dense
-        v-model="completed"
-        color="orange"
-        @click="handleComplete"
-      />
+      <q-checkbox dense v-model="completed" color="orange" />
     </q-item-section>
 
     <q-item-section class="col">
-      <div :style="{ color: completed ? 'green' : 'black', textDecoration: completed ? 'line-through' : 'none' }">
-        {{ task.content }}
+      <div
+        :style="{
+          color: completed ? 'green' : 'black',
+          textDecoration: completed ? 'line-through' : 'none',
+        }"
+      >
+        {{ todos.content }}
       </div>
     </q-item-section>
 
     <q-item-section class="col-1 q-mr-sm">
       <q-btn
-        @click="$emit('delete', task.id)"
+        @click="$emit('delete', todos.id)"
         size="8px"
         flat
         dense
@@ -37,10 +37,9 @@
       fit
     >
       <q-item-label ellipsis class="popup-title">
-        {{ task.description }}
+        {{ todos.description }}
       </q-item-label>
       <q-input
-        v-model="descriptionInput"
         standout
         unelevated
         type="textarea"
@@ -48,42 +47,28 @@
         dark
         :input-style="{ color: 'orange' }"
       />
-      <div class="q-mt-sm q-gutter-sm flex justify-end">
-        <q-btn unelevated dense color="primary" @click="updateDescription">
-          수정
-        </q-btn>
-        <q-btn unelevated dense color="red" @click="deleteDescription">
-          삭제
-        </q-btn>
-      </div>
     </q-popup-edit>
   </q-item>
 </template>
 
 <script>
-import axios from "axios";
 import { userTaskStore } from "src/stores/storage";
 
 export default {
-  props: ["task"],
+  props: {
+    todos: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       completed: false,
       showPopup: false,
       arrow: "expand_more",
-      descriptionInput: this.task.description,
     };
   },
   methods: {
-    updateDescription() {
-      this.$emit("updateDescription", {
-        id: this.task.id,
-        description: this.descriptionInput,
-      });
-    },
-    deleteDescription() {
-      this.$emit("deleteDescription", this.task.id);
-    },
     clickArrow() {
       this.showPopup = !this.showPopup;
       if (this.showPopup) {
@@ -91,9 +76,6 @@ export default {
       } else {
         this.arrow = "expand_more";
       }
-    },
-    handleComplete() {
-      this.$emit("complete", this.task.id);
     },
   },
   setup() {

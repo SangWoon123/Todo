@@ -14,14 +14,14 @@
       class="bg-white text-dark"
     >
       <!-- header -->
-      <q-item class="q-pt-md">
-        <TodayDate />
+      <q-item class="q-pt-md text-orange">
+        {{historys[0].today}}
       </q-item>
       <q-separator class="q-my-xs" color="orange" style="size: 16px" />
 
-      <!-- TaskList -->
+      <!-- HistoryList -->
       <div class="q-ma-md disabled-touch">
-        <TaskList :tasks="tasks" />
+        <HistoryList :historys="historys" />
       </div>
 
       <!-- 피드백 창 -->
@@ -74,13 +74,14 @@
 </template>
 
 <script>
-import TodayDate from "../day/TodayDate.vue";
-import TaskList from "../TaskList.vue";
+import { userTaskStore } from "src/stores/storage";
+import HistoryList from "./HistoryList.vue";
 
 export default {
-  components: { TodayDate, TaskList },
+  components: { HistoryList },
   props: {
     dialogVisible: Boolean,
+    historys: Object,
   },
   data() {
     return {
@@ -101,6 +102,12 @@ export default {
       this.completed = true;
     },
   },
+  watch: {
+    dialogVisible(newVal) {
+      // dialogVisible prop의 변화를 감지
+      this.completed = newVal; // 변화가 감지되면 completed에 새로운 값을 할당
+    },
+  },
   methods: {
     change() {
       this.completed = true;
@@ -108,6 +115,12 @@ export default {
     updateFeedbackText() {
       this.savedFeedback = this.feedbackText;
     },
+  },
+  setup() {
+    const store = userTaskStore();
+    return {
+      store,
+    };
   },
 };
 </script>

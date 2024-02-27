@@ -19,33 +19,53 @@
     <!-- 랜덤 명언 구문 -->
     <div class="q-my-lg text-center">
       <div class="flex flex-center">
-        <span class="phrase">
-          단순하게 살아라. 현대인은 쓸데없는 절차와 일 때문에 얼마나 복잡한 삶을
-          살아가는가?
+        <span name="fade" class="phrase">
+          {{ quote }}
         </span>
-        <span class="phrase">- 이드리스 샤흐 -</span>
+        <!-- <span class="phrase">- 이드리스 샤흐 -</span> -->
       </div>
     </div>
   </q-container>
 </template>
 
 <script>
+import axios from "axios";
 import TodayDate from "./day/TodayDate.vue";
+import { userTaskStore } from "src/stores/storage";
+import { computed, ref } from "vue";
 
 export default {
   components: { TodayDate },
   data() {
     return {
-      newTask: "",
+      quote: "",
     };
   },
+
   methods: {
-    addTask() {
-      if (this.newTask.trim() !== "") {
-        this.$emit("add-task", this.newTask.trim());
-        this.newTask = "";
-      }
+    fetchQuote() {
+      const quoteUrl = `http://localhost:8080/quote`;
+      axios.get(quoteUrl).then((res) => {
+        this.quote = res.data.slip.advice;
+      });
     },
+  },
+  created() {
+    this.fetchQuote();
+    // setInterval(this.fetchQuote, 10000);
+  },
+  setup() {
+    const store = userTaskStore();
+    const newTask = ref("");
+
+    const tasks = computed(() => store.tasks);
+
+    const addTask = () => {
+      store.addTask(newTask.value);
+      newTask.value = "";
+    };
+
+    return { newTask, addTask, tasks };
   },
 };
 </script>
@@ -64,6 +84,16 @@ export default {
 
 /* 명언 */
 .phrase {
-  font-size: 8px;
+  font-size: 10px;
+}
+
+/* 넘김 효과를 위한 CSS를 추가합니다. */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
