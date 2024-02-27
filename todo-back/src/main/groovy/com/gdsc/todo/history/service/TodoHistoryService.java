@@ -5,6 +5,7 @@ import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
 import com.gdsc.todo.history.dto.TodoHistoryResponse;
+import com.gdsc.todo.task.dto.TodoResponse;
 import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.user.dao.User;
 import com.gdsc.todo.user.repository.UserRepository;
@@ -32,12 +33,20 @@ public class TodoHistoryService {
 
         List<TodoHistory> recentHistory = historyRepository.findTop7ByUserOrderByDayDesc(user);
 
+
+
         return recentHistory.stream()
-                .map(TodoHistoryResponse::from)
-                .collect(Collectors.toList());
+                .map(history->{
+                            List<TodoResponse> todos = todoRepository.findByTodayAndUser(history.getDay(),user)
+                                    .stream()
+                                    .map(TodoResponse::from)
+                                    .collect(Collectors.toList());
+                            return TodoHistoryResponse.from(history, todos);
+                        }
+                ).collect(Collectors.toList());
     }
 
-    //@Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void recordYesterdayTasks() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         List<User> allUsers = userRepository.findAll();

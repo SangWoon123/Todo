@@ -1,9 +1,11 @@
 package com.gdsc.todo.history.dto;
 
 import com.gdsc.todo.history.domain.TodoHistory;
+import com.gdsc.todo.task.dto.TodoResponse;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,11 +15,13 @@ public class TodoHistoryResponse {
     private LocalDate day;
     private Long total;
     private Long complete;
+    private List<TodoResponse> todos;
 
-    public static TodoHistoryResponse from(TodoHistory history){
+    public static TodoHistoryResponse from(TodoHistory history,List<TodoResponse> todos){
         return TodoHistoryResponse.builder()
                 .day(history.getDay())
                 .total(history.getTotal())
+                .todos(todos)
                 .complete(history.getComplete())
                 .build();
     }

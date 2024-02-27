@@ -23,8 +23,8 @@ public class HistoryController {
     private final TodoHistoryService historyService;
     @Operation(summary = "최근 저장한 7일의 Todo리스트 정보 목록 가져오기")
     @GetMapping()
-    public ResponseEntity<List<TodoHistoryResponse>> getRecentHistory(@AuthenticationPrincipal CustomUser userDto){
+    public ApiWrapper<List<TodoHistoryResponse>> getRecentHistory(@AuthenticationPrincipal CustomUser userDto){
         List<TodoHistoryResponse> recentHistory = historyService.getRecentHistory(userDto);
-        return new ResponseEntity<>(recentHistory,HttpStatus.OK);
+        return new ApiWrapper<>(recentHistory, HttpStatus.OK);
     }
 }
