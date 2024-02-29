@@ -12,4 +12,6 @@ public interface TodoHistoryRepository extends JpaRepository<TodoHistory,Long> {
     List<TodoHistory> findTop7ByUserOrderByDayDesc(User user);
     Optional<TodoHistory> findByDayAndUser(LocalDate day,User user);
     Optional<TodoHistory> findByUser(User user);
+
+    Optional<TodoHistory> findByUserAndId(User user,Long id);
 }

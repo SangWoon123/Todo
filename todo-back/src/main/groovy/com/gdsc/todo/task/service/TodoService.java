@@ -1,11 +1,11 @@
 package com.gdsc.todo.task.service;
 
 import com.gdsc.todo.global.details.CustomUser;
-import com.gdsc.todo.task.repository.TodoRepository;
-import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.service.TodoHistoryService;
+import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.task.dto.TodoRequest;
 import com.gdsc.todo.task.dto.TodoResponse;
+import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.user.dao.User;
 import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +26,9 @@ public class TodoService {
     private final TodoHistoryService historyService;
     private final UserRepository userRepository;
 
-    public TodoResponse createTask(CustomUser userDto,TodoRequest create) {
-        User user= userRepository.findByEmail(userDto.getEmail())
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+    public TodoResponse createTask(CustomUser userDto, TodoRequest create) {
+        User user = userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Todo task = Todo.builder()
                 .content(create.getContent())
@@ -43,12 +43,12 @@ public class TodoService {
         return newTask;
     }
 
-    public List<TodoResponse> getTodayTask(CustomUser userDto){
-        User user= userRepository.findByEmail(userDto.getEmail())
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+    public List<TodoResponse> getTodayTask(CustomUser userDto) {
+        User user = userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        LocalDate today=LocalDate.now();
-        List<Todo> todayTasks = todoRepository.findByTodayAndUser(today,user);
+        LocalDate today = LocalDate.now();
+        List<Todo> todayTasks = todoRepository.findByTodayAndUser(today, user);
 
         return todayTasks.stream()
                 .map(TodoResponse::from)
@@ -56,9 +56,9 @@ public class TodoService {
     }
 
     @Transactional
-    public TodoResponse updateTask(CustomUser userDto,Long taskId,TodoRequest update) {
-        User user= userRepository.findByEmail(userDto.getEmail())
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+    public TodoResponse updateTask(CustomUser userDto, Long taskId, TodoRequest update) {
+        User user = userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Todo task = todoRepository.getById(taskId);
 
@@ -74,9 +74,9 @@ public class TodoService {
         return updateTask;
     }
 
-    public void deleteTask(CustomUser customUser,Long taskId) {
-        User user= userRepository.findByEmail(customUser.getEmail())
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+    public void deleteTask(CustomUser customUser, Long taskId) {
+        User user = userRepository.findByEmail(customUser.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Todo task = todoRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
@@ -90,8 +90,8 @@ public class TodoService {
 
     @Transactional
     public TodoResponse completeTask(CustomUser customUser, Long taskId) {
-        User user= userRepository.findByEmail(customUser.getEmail())
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByEmail(customUser.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Todo task = todoRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));

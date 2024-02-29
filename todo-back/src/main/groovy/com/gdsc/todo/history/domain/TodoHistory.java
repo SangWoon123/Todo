@@ -1,7 +1,7 @@
 package com.gdsc.todo.history.domain;
 
-import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
+import com.gdsc.todo.task.dao.Todo;
 import com.gdsc.todo.user.dao.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +28,11 @@ public class TodoHistory {
 
     private Long complete;
 
+    private String feedback;
+
+    @Enumerated(value = EnumType.STRING)
+    private Emotion emotion;
+
     @OneToMany(mappedBy = "history")
     private List<Todo> todos;
 
@@ -41,13 +46,18 @@ public class TodoHistory {
         this.total++; // 추후 변경
     }
 
-    public static TodoHistory of(User user,LocalDate day, TodoHistoryRepository historyRepository){
-        return historyRepository.findByDayAndUser(day,user)
-                .orElseGet(()-> TodoHistory.builder()
+    public static TodoHistory of(User user, LocalDate day, TodoHistoryRepository historyRepository) {
+        return historyRepository.findByDayAndUser(day, user)
+                .orElseGet(() -> TodoHistory.builder()
                         .total(0L)
                         .complete(0L)
                         .day(day)
                         .user(user)
                         .todos(new ArrayList<>()).build());
+    }
+
+    public void updateFeed(String feedback, Emotion emotion) {
+        this.feedback = feedback;
+        this.emotion = emotion;
     }
 }

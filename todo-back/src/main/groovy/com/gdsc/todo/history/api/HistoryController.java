@@ -1,6 +1,7 @@
 package com.gdsc.todo.history.api;
 
 import com.gdsc.todo.global.details.CustomUser;
+import com.gdsc.todo.history.dto.TodoHistoryFeedRequest;
 import com.gdsc.todo.history.dto.TodoHistoryResponse;
 import com.gdsc.todo.history.service.TodoHistoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Tag(name = "TodoHistory", description = "기록한 Todo리스트 저장")
@@ -26,5 +25,11 @@ public class HistoryController {
     public ApiWrapper<List<TodoHistoryResponse>> getRecentHistory(@AuthenticationPrincipal CustomUser userDto){
         List<TodoHistoryResponse> recentHistory = historyService.getRecentHistory(userDto);
         return new ApiWrapper<>(recentHistory, HttpStatus.OK);
+    }
+
+    @Operation(summary = "피드백 작성")
+    @PostMapping("/feed/{historyId}")
+    public ResponseEntity<TodoHistoryFeedRequest> postFeed(@AuthenticationPrincipal CustomUser userDto, @RequestBody TodoHistoryFeedRequest todoHistoryFeedRequest, @PathVariable("historyId")Long historyId){
+        return new ResponseEntity<>(historyService.postFeed(userDto, todoHistoryFeedRequest,historyId), HttpStatus.OK);
     }
 }

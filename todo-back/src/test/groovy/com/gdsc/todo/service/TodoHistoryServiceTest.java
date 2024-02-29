@@ -1,5 +1,6 @@
 package com.gdsc.todo.service;
 
+import com.gdsc.todo.global.details.CustomUser;
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
@@ -124,6 +125,22 @@ class TodoHistoryServiceTest {
                 .orElseThrow(() -> new IllegalArgumentException("Not Found"));
 
         assertThat(todoHistory.getTodos()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("피드 저장")
+    public void postFeedTest(){
+        testUser=createUser("testEmail");
+        createAndSabeTodo("테스트","테스트",testUser);
+
+        historyService.recordYesterdayTasks();
+
+        TodoHistory todoHistory = historyRepository.findByUser(testUser)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found"));
+
+        todoHistory.updateFeed("피드를 작성",true);
+
+        Assertions.assertEquals(todoHistory.getFeedback(),"피드를 작성");
     }
 
     @After("")
