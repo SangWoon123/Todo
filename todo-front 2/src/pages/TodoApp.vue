@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-ma-xl column">
     <!-- 이동버튼 -->
-    <q-nav class="q-mb-md">
+    <nav class="q-mb-md">
       <router-link to="sign">
         <q-btn
           color="grey-6"
@@ -11,7 +11,7 @@
           icon="arrow_back_ios"
         ></q-btn>
       </router-link>
-    </q-nav>
+    </nav>
 
      <!-- 헤더 -->
     <TodoHeader @add-task="addTask" />

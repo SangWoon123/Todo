@@ -1,5 +1,9 @@
 <template>
-  <q-container class="q-mt-lg">
+  <q-container class="q-mt-lge">
+    <q-scroll-area
+      style="height: calc(218px); overflow-y: auto; max-width: 100%"
+      class="test"
+    >
     <q-list class="q-gutter-y-sm">
       <HistoryItem
         v-for="(task, index) in historys"
@@ -7,6 +11,7 @@
         :todos="task"
       />
     </q-list>
+    </q-scroll-area>
   </q-container>
 </template>
 
@@ -28,12 +33,6 @@ export default {
       // 화면에 최대 5개의 항목만 표시
       return this.tasks.slice(0, 5);
     },
-    // todosArray() {
-    //   return this.store.historys;
-    // },
-  },
-  created(){
-    console.log(this.store.historys);
   },
   setup() {
     const store = userTaskStore();
@@ -42,4 +41,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

@@ -11,7 +11,12 @@
     </q-item-section>
 
     <q-item-section class="col">
-      <div :style="{ color: completed ? 'green' : 'black', textDecoration: completed ? 'line-through' : 'none' }">
+      <div
+        :style="{
+          color: completed ? 'green' : 'black',
+          textDecoration: completed ? 'line-through' : 'none',
+        }"
+      >
         {{ task.content }}
       </div>
     </q-item-section>
@@ -31,30 +36,93 @@
     </div>
     <q-popup-edit
       v-if="showPopup"
-      class="bg-orange-3"
-      title="설명:"
+      style="background-color: #fef7ee"
       :cover="false"
       fit
+      :content-style="{ height: '1000px' }"
     >
-      <q-item-label ellipsis class="popup-title">
+      <q-item-label ellipsis class="popup-title q-mt-md">
         {{ task.description }}
       </q-item-label>
-      <q-input
+
+      <div
+        style="
+          color: black;
+          font-size: 8px;
+          font-family: Inter;
+          font-weight: 400;
+          word-wrap: break-word;
+        "
+      >
+        상세 내용을 작성해주세요
+      </div>
+      <input
         v-model="descriptionInput"
-        standout
-        unelevated
         type="textarea"
-        class="bg-white"
-        dark
-        :input-style="{ color: 'orange' }"
+        style="
+          width: 254px;
+          height: 65px;
+          background: rgba(255, 255, 255, 0);
+          border-radius: 10px;
+          border: 1px rgba(187.44, 187.44, 187.44, 0.8) solid;
+          padding:10px;
+        "
       />
+
+      <!-- 버튼 -->
       <div class="q-mt-sm q-gutter-sm flex justify-end">
-        <q-btn unelevated dense color="primary" @click="updateDescription">
-          수정
-        </q-btn>
-        <q-btn unelevated dense color="red" @click="deleteDescription">
-          삭제
-        </q-btn>
+        <div style="width: 90px; height: 15px; position: relative">
+          <button
+            @click="deleteDescription"
+            style="
+              width: 42px;
+              height: 15px;
+              left: 48px;
+              top: 0px;
+              position: absolute;
+              background: #ff4141;
+              border-radius: 20px;
+              border: none;
+            "
+          >
+            <div
+              style="
+                color: white;
+                font-size: 8px;
+                font-family: Inter;
+                font-weight: 400;
+                word-wrap: break-word;
+              "
+            >
+              삭제
+            </div>
+          </button>
+          <button
+            @click="updateDescription"
+            style="
+              width: 42px;
+              height: 15px;
+              left: 0px;
+              top: 0px;
+              position: absolute;
+              background: #416bff;
+              border-radius: 20px;
+              border: none;
+            "
+          >
+            <div
+              style="
+                color: white;
+                font-size: 8px;
+                font-family: Inter;
+                font-weight: 400;
+                word-wrap: break-word;
+              "
+            >
+              수정
+            </div>
+          </button>
+        </div>
       </div>
     </q-popup-edit>
   </q-item>
@@ -82,6 +150,7 @@ export default {
       });
     },
     deleteDescription() {
+      this.descriptionInput="";
       this.$emit("deleteDescription", this.task.id);
     },
     clickArrow() {
@@ -109,7 +178,6 @@ export default {
 <style>
 /* 메인컨텐ㅊ  */
 .todo-box {
-  width: 100%;
   min-height: 38px;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -140,5 +208,8 @@ export default {
 /* 라디오 버튼 클릭 */
 .q-checkbox__bg {
   border-radius: 10px;
+}
+
+.button {
 }
 </style>

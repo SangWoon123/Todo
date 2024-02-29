@@ -5,6 +5,9 @@ export const userTaskStore = defineStore("task", {
   state: () => ({
     tasks: [],
     historys: {},
+    checkEmojiBoolean: Boolean,
+    happy: [],
+    unhappy: [],
   }),
 
   getters: {},
@@ -147,10 +150,50 @@ export const userTaskStore = defineStore("task", {
         .then((res) => {
           const datas = res.data.data.map((history) => history); // proxy로 감싸진 historyResponse(*참고 swagger-ui)
           for (let i in datas) {
+            console.log(datas[i])
             this.historys[i] = datas[i]; // proxy로 감싸여진 데이터를 벗겨내어 historys에 저장
-          }
+            this.happy = new Array(res.data.data.length).fill(false); // historys 길이 정의
+            this.unhappy = new Array(res.data.data.length).fill(false); // historys 길이 정의
 
+            if (this.historys[i].emotion === "HAPPY") {
+              this.happy[i] = true;
+            } else if(this.historys[i].emotion === "UNHAPPY") {
+              this.unhappy[i] = true;
+            }
+          }
         });
+    },
+    changeImage(id, imageType) {
+      const index = id - 1;
+      if (imageType === "happy") {
+        this.happy[index] = !this.happy[index];
+        this.unhappy[index] = false;
+      } else if (imageType === "unhappy") {
+        this.unhappy[index] = !this.unhappy[index];
+        this.happy[index] = false;
+      }
+    },
+    async updateFeedbackText(id, feedbackText) {
+      const accessToken = localStorage.getItem("accessToken");
+      const url = `http://localhost:8080/history/feed/${id}`;
+
+      var emotion = "";
+      if (this.happy[id-1] === true) {
+        emotion = "HAPPY";
+      } else {
+        emotion = "UNHAPPY";
+      }
+      const todoHistoryFeedRequest = {
+        id: id,
+        feedback: feedbackText,
+        emotion: emotion,
+      };
+
+      await axios.post(url, todoHistoryFeedRequest, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
     },
   },
 });

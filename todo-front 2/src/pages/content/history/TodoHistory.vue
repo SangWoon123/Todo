@@ -5,13 +5,31 @@
         <q-list v-for="(data, n) in store.historys" :key="n">
           <q-btn dense rounded unelevated @click="toggleLayout(n)">
             <!-- TodoPopup  -->
-            <TodoPopup :dialogVisible="dialogVisible[n]" :historys="data.todos" />
+            <TodoPopup
+              :dialogVisible="dialogVisible[n]"
+              :todos="data.todos"
+              :historys="data"
+              @close="toggleLayout(n)"
+            />
 
             <div class="column history">
               <!-- 날짜 -->
               <div class="col-4">
-                <div class="q-ma-sm text-orange">{{ data.day }}</div>
+                <div class="q-ma-sm text-orange row flex-center">
+                  {{ data.day }}
+                  <img
+                    v-show="data.emotion === 'UNHAPPY' ? true : false"
+                    src="~/assets/unhappy.png"
+                    style="width: 20px; margin-left: 15px"
+                  />
+                  <img
+                    v-show="data.emotion === 'HAPPY' ? true : false"
+                    src="~/assets/happy.png"
+                    style="width: 20px; margin-left: 15px"
+                  />
+                </div>
                 <q-separator inset color="orange" />
+                <!-- 이모지 -->
               </div>
               <!-- 수행여부 -->
               <div class="col q-mt-sm">
@@ -29,6 +47,7 @@
 <script>
 import TodoPopup from "./TodoPopup.vue";
 import { userTaskStore } from "src/stores/storage";
+import { data } from "autoprefixer";
 
 export default {
   components: { TodoPopup },
@@ -43,8 +62,22 @@ export default {
       this.dialogVisible[n] = !this.dialogVisible[n];
     },
   },
-  created() {
-    this.store.getHistory();
+  watch: {
+    dialogVisible() {
+      this.dialogVisible[n] = false;
+    },
+    emotion() {
+      if (data.emotion === "HAPPY") {
+        this.emoji = true;
+      } else if (data.emotion === "UNHAPPY") {
+        console.log("zzzz");
+        console.log(data.emotion);
+        this.emoji = false;
+      }
+    },
+  },
+  async created() {
+    await this.store.getHistory();
   },
   setup() {
     const store = userTaskStore();

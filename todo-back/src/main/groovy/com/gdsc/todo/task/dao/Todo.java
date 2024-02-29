@@ -52,4 +52,7 @@ public class Todo{
             this.completeTime = LocalDateTime.now();
         }
     }
+    public void connectHistory(TodoHistory history) {
+        this.history = history;
+    }
 }

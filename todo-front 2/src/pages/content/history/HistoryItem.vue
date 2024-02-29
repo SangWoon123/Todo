@@ -8,22 +8,16 @@
     <q-item-section class="col">
       <div
         :style="{
-          color: completed ? 'green' : 'black',
-          textDecoration: completed ? 'line-through' : 'none',
+          color: todos.done ? 'green' : 'black',
+          textDecoration: todos.done ? 'line-through' : 'none',
         }"
       >
         {{ todos.content }}
       </div>
     </q-item-section>
 
-    <q-item-section class="col-1 q-mr-sm">
-      <q-btn
-        @click="$emit('delete', todos.id)"
-        size="8px"
-        flat
-        dense
-        icon="delete"
-      />
+    <q-item-section class="col-3 q-mr-sm" style="font-size: 10px">
+      {{ time }}
     </q-item-section>
 
     <div>
@@ -31,28 +25,20 @@
     </div>
     <q-popup-edit
       v-if="showPopup"
-      class="bg-orange-3"
-      title="설명:"
+      style="background-color: #fef7ee"
       :cover="false"
       fit
     >
       <q-item-label ellipsis class="popup-title">
         {{ todos.description }}
       </q-item-label>
-      <q-input
-        standout
-        unelevated
-        type="textarea"
-        class="bg-white"
-        dark
-        :input-style="{ color: 'orange' }"
-      />
     </q-popup-edit>
   </q-item>
 </template>
 
 <script>
 import { userTaskStore } from "src/stores/storage";
+import moment from "moment";
 
 export default {
   props: {
@@ -63,7 +49,6 @@ export default {
   },
   data() {
     return {
-      completed: false,
       showPopup: false,
       arrow: "expand_more",
     };
@@ -76,6 +61,18 @@ export default {
       } else {
         this.arrow = "expand_more";
       }
+    },
+  },
+  computed: {
+    completed() {
+      return this.todos.done;
+    },
+    time() {
+      const time = this.todos.completeTime;
+      if (time) {
+        return moment(time, "HH:mm").format("A hh:mm");
+      }
+      return null;
     },
   },
   setup() {
