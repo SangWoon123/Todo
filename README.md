@@ -2,7 +2,8 @@
 
 ---
 
-<center><img src="https://github.com/SangWoon123/Todo/assets/100204926/8655ff6e-1cd8-435e-87d0-3aa3e41e660a" width="75" height="75"></center>
+<img src="https://github.com/SangWoon123/Todo/assets/100204926/8655ff6e-1cd8-435e-87d0-3aa3e41e660a" width="75" height="75">
+
 계획 하고있는 하루의 목표를 기록하는 TodoList 서비스
 
 ### ⚒️기술스택
@@ -51,19 +52,10 @@
 
 ---
 
-<div style="display: flex">
-<div>
-<img src="https://github.com/SangWoon123/Todo/assets/100204926/2f6a6045-c02d-42c7-89f4-9c1f1f51d128" width="200" height="350" alt="zzzz">
-<p>로그인</p>
-</div>
-<div>
-<img src="https://github.com/SangWoon123/Todo/assets/100204926/f4207687-073a-46e8-8f43-c26e97dbf913" width="200" height="350">
-<p>CRUD</p>
-</div>
+1. 로그인
+2. CRUD
+3. Todo 히스토리 및 셀프 피드백
 
-<div>
-<img src="https://github.com/SangWoon123/Todo/assets/100204926/fd954640-651a-430a-a908-6e1c80f78e1f" width="200" height="350">
-<p>Todo 히스토리 및 셀프 피드백</p>
-</div>
-
-</div>
+![첫 번째 이미지 설명](https://github.com/SangWoon123/Todo/assets/100204926/2f6a6045-c02d-42c7-89f4-9c1f1f51d128) 
+![CRUD 관련 이미지](https://github.com/SangWoon123/Todo/assets/100204926/f4207687-073a-46e8-8f43-c26e97dbf913) 
+![Todo 히스토리 및 셀프 피드백 이미지](https://github.com/SangWoon123/Todo/assets/100204926/fd954640-651a-430a-a908-6e1c80f78e1f) 
