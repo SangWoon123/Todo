@@ -1,9 +1,7 @@
 package com.gdsc.todo.service;
 
-import com.gdsc.todo.global.details.CustomUser;
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.task.dao.Todo;
-import com.gdsc.todo.task.dto.TodoRequest;
 import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.task.service.TodoService;
 import com.gdsc.todo.user.dao.SocialType;
@@ -40,7 +38,7 @@ public class TodoServiceTest {
                 .email("test@naver.com")
                 .profileImage("testURL")
                 .socialId("naver")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
 
         userRepository.save(user);
@@ -74,7 +72,7 @@ public class TodoServiceTest {
                 .email("test@naver.com")
                 .profileImage("testURL")
                 .socialId("naver")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
 
         userRepository.save(user);
@@ -97,7 +95,7 @@ public class TodoServiceTest {
                 .email("test@naver.com")
                 .profileImage("testURL")
                 .socialId("naver")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
 
         userRepository.save(user2);
@@ -133,7 +131,7 @@ public class TodoServiceTest {
                 .email("test@naver.com")
                 .profileImage("testURL")
                 .socialId("naver")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
 
         userRepository.save(user);
@@ -172,7 +170,7 @@ public class TodoServiceTest {
                 .email("test@naver.com")
                 .profileImage("testURL")
                 .socialId("naver")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
 
         userRepository.save(user);

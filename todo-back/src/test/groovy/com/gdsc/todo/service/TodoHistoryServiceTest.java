@@ -1,6 +1,5 @@
 package com.gdsc.todo.service;
 
-import com.gdsc.todo.global.details.CustomUser;
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
@@ -55,7 +54,7 @@ class TodoHistoryServiceTest {
                 .email(email)
                 .profileImage("testURL")
                 .socialId("testSocial")
-                .socialType(SocialType.GOOGLE)
+                .socialType(SocialType.NAVER)
                 .build();
         return userRepository.save(user);
     }

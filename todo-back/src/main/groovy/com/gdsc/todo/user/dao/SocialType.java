@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SocialType {
 
-    GOOGLE("GOOGLE"),
+    NAVER("NAVER"),
     KAKAO("KAKAO");
 
     private final String socialName;
@@ -16,6 +16,6 @@ public enum SocialType {
         if(KAKAO.socialName.equals(registrationId.toUpperCase())) {
             return SocialType.KAKAO;
         }
-        return SocialType.GOOGLE;
+        return SocialType.NAVER;
     }
 }
