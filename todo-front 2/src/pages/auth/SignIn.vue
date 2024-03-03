@@ -90,6 +90,7 @@
             unelevated
             color="positive"
             size="10px"
+            href="http://localhost:8080/oauth2/authorization/naver"
           >
             <div class="naver">
               <img class="q-ma-sm absolute-left" src="src/assets/naver.png" />

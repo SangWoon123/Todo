@@ -5,7 +5,6 @@ export const userTaskStore = defineStore("task", {
   state: () => ({
     tasks: [],
     historys: {},
-    checkEmojiBoolean: Boolean,
     happy: [],
     unhappy: [],
   }),
@@ -134,6 +133,7 @@ export const userTaskStore = defineStore("task", {
           },
         })
         .then((res) => {
+          console.log(task.done)
           console.log(`${task.content} Task complete`);
         });
     },
@@ -150,7 +150,6 @@ export const userTaskStore = defineStore("task", {
         .then((res) => {
           const datas = res.data.data.map((history) => history); // proxy로 감싸진 historyResponse(*참고 swagger-ui)
           for (let i in datas) {
-            console.log(datas[i])
             this.historys[i] = datas[i]; // proxy로 감싸여진 데이터를 벗겨내어 historys에 저장
             this.happy = new Array(res.data.data.length).fill(false); // historys 길이 정의
             this.unhappy = new Array(res.data.data.length).fill(false); // historys 길이 정의

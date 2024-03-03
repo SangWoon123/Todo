@@ -30,13 +30,7 @@ import TodoHistory from "./content/history/TodoHistory.vue";
 export default {
   data() {
     return {
-      tasks: Array.from({ length: 5 }, (_, i) => {
-        return {
-          id: i + 1,
-          name: `Task ${i + 1}`,
-          completed: false,
-        };
-      }),
+     
     };
   },
   methods: {

@@ -33,16 +33,13 @@
           >
             <img
               v-show="
-                this.store.unhappy[historys.id - 1] === true ||
-                this.store.happy[historys.id - 1] === false
-                  ? true
-                  : false
+                unhappyImage === true || happyImage === false ? true : false
               "
               src="~/assets/happy-notclick.png"
               class="emoji"
             />
             <img
-              v-show="this.store.happy[historys.id - 1] === true ? true : false"
+              v-show="happyImage === true ? true : false"
               src="~/assets/happy.png"
               class="emoji"
             />
@@ -54,19 +51,14 @@
           >
             <img
               v-show="
-                this.store.happy[historys.id - 1] === true ||
-                this.store.unhappy[historys.id - 1] === false
-                  ? true
-                  : false
+                happyImage === true || unhappyImage === false ? true : false
               "
               src="~/assets/unhappy-notclick.png"
               class="emoji"
             />
 
             <img
-              v-show="
-                this.store.unhappy[historys.id - 1] === true ? true : false
-              "
+              v-show="unhappyImage === true ? true : false"
               src="~/assets/unhappy.png"
               class="emoji"
             />
@@ -116,8 +108,9 @@
 
         <!-- 확인버튼 -->
         <div style="width: 223px; height: 38px; position: relative">
-          <button type="submit" class="submit-button"></button>
-          <div class="submit-text">Submit feedback</div>
+          <button type="submit" class="submit-button">
+            Submit feedback
+          </button>
         </div>
       </q-form>
     </q-layout>
@@ -143,6 +136,14 @@ export default {
       submitted: false, // 피드백 제출한 여부
     };
   },
+  computed: {
+    happyImage() {
+      return this.store.happy[this.historys.id - 1];
+    },
+    unhappyImage() {
+      return this.store.unhappy[this.historys.id - 1];
+    },
+  },
   watch: {
     dialogVisible(newVal) {
       this.completed = newVal; // 변화가 감지되면 completed에 새로운 값을 할당
@@ -165,6 +166,9 @@ export default {
         .then(() => {
           this.savedFeedback = this.feedbackText;
           this.submitted = true;
+          this.$emit("close");
+          this.$emit("happy",this.happyImage,this.historys.id)
+          this.$emit("unhappy",this.unhappyImage,this.historys.id)
         });
     },
   },
@@ -195,6 +199,7 @@ export default {
 }
 
 .submit-button {
+  color: white;
   width: 223px;
   height: 38px;
   left: 8px;

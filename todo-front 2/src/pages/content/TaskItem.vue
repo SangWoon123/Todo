@@ -65,7 +65,7 @@
           background: rgba(255, 255, 255, 0);
           border-radius: 10px;
           border: 1px rgba(187.44, 187.44, 187.44, 0.8) solid;
-          padding:10px;
+          padding: 10px;
         "
       />
 
@@ -129,18 +129,22 @@
 </template>
 
 <script>
-import axios from "axios";
 import { userTaskStore } from "src/stores/storage";
 
 export default {
   props: ["task"],
   data() {
     return {
-      completed: false,
+      completed: this.task.done,
       showPopup: false,
       arrow: "expand_more",
       descriptionInput: this.task.description,
     };
+  },
+  watch: {
+    "task.done": function (newVal) {
+      this.completed = newVal; // task.done 값이 변경될 때 completed 값을 함께 변경
+    },
   },
   methods: {
     updateDescription() {
@@ -150,7 +154,7 @@ export default {
       });
     },
     deleteDescription() {
-      this.descriptionInput="";
+      this.descriptionInput = "";
       this.$emit("deleteDescription", this.task.id);
     },
     clickArrow() {

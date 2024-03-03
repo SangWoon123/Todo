@@ -10,6 +10,8 @@
               :todos="data.todos"
               :historys="data"
               @close="toggleLayout(n)"
+              @happy="handleHappy"
+              @unhappy="handleUnHappy"
             />
 
             <div class="column history">
@@ -18,12 +20,12 @@
                 <div class="q-ma-sm text-orange row flex-center">
                   {{ data.day }}
                   <img
-                    v-show="data.emotion === 'UNHAPPY' ? true : false"
+                    v-show="this.store.unhappy[data.id - 1]"
                     src="~/assets/unhappy.png"
                     style="width: 20px; margin-left: 15px"
                   />
                   <img
-                    v-show="data.emotion === 'HAPPY' ? true : false"
+                    v-show="this.store.happy[data.id - 1]"
                     src="~/assets/happy.png"
                     style="width: 20px; margin-left: 15px"
                   />
@@ -47,7 +49,6 @@
 <script>
 import TodoPopup from "./TodoPopup.vue";
 import { userTaskStore } from "src/stores/storage";
-import { data } from "autoprefixer";
 
 export default {
   components: { TodoPopup },
@@ -55,29 +56,55 @@ export default {
     return {
       dialogVisible: {},
       datas: {},
+      happy: Boolean,
+      unhappy: Boolean,
     };
   },
   methods: {
     toggleLayout(n) {
       this.dialogVisible[n] = !this.dialogVisible[n];
     },
-  },
-  watch: {
-    dialogVisible() {
-      this.dialogVisible[n] = false;
+    handleHappy(happyImage, id) {
+      if (happyImage === true) {
+        this.happy = true;
+        this.store.happy[id - 1] = true;
+      } else {
+        this.happy = false;
+        this.store.happy[id - 1] = false;
+      }
     },
-    emotion() {
-      if (data.emotion === "HAPPY") {
-        this.emoji = true;
-      } else if (data.emotion === "UNHAPPY") {
-        console.log("zzzz");
-        console.log(data.emotion);
-        this.emoji = false;
+    handleUnHappy(unhappyImage, id) {
+      if (unhappyImage === true) {
+        this.unhappy = true;
+        this.store.unhappy[id - 1] = true;
+      } else {
+        this.unhappy = false;
+        this.store.unhappy[id - 1] = false;
       }
     },
   },
-  async created() {
-    await this.store.getHistory();
+  watch: {
+    "store.historys": {
+      deep: true,
+      handler(happy) {
+        console.log(happy[0]);
+      },
+    },
+    "store.happy": {
+      deep: true,
+      handler(happy) {
+        console.log("hhhhhhh");
+      },
+    },
+    "store.unhappy": {
+      deep: true,
+      handler(unhappy) {
+        console.log("unhhhaah");
+      },
+    },
+  },
+  created() {
+    this.store.getHistory();
   },
   setup() {
     const store = userTaskStore();
