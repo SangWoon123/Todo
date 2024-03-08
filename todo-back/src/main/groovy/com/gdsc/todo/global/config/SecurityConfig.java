@@ -1,5 +1,6 @@
 package com.gdsc.todo.global.config;
 
+import com.gdsc.todo.global.config.redis.RedisOAuth2AuthorizedClientService;
 import com.gdsc.todo.global.oauth.CustomOAuth2Service;
 import com.gdsc.todo.global.oauth.handler.OAuth2LoginFailureHandler;
 import com.gdsc.todo.global.oauth.handler.Oauth2SuccessHandler;
@@ -12,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -25,6 +28,7 @@ public class SecurityConfig {
     private final CustomOAuth2Service customOAuth2Service;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -43,10 +47,16 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig-> userInfoEndpointConfig
                                         .userService(customOAuth2Service))
                                 .successHandler(oauth2SuccessHandler)
-                        .failureHandler(oAuth2LoginFailureHandler))
+                        .failureHandler(oAuth2LoginFailureHandler)
+                        .authorizedClientService(authorizedClientService()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionHandlerFilter,JwtAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public OAuth2AuthorizedClientService authorizedClientService() {
+        return new RedisOAuth2AuthorizedClientService(clientRegistrationRepository);
     }
 }
