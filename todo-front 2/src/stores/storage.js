@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useTokenStore } from "./token";
+import axiosInstance from "./axiosInstance";
 
 export const userTaskStore = defineStore("task", {
   state: () => ({
@@ -13,7 +15,11 @@ export const userTaskStore = defineStore("task", {
 
   actions: {
     async addTask(newTask) {
+      const token = useTokenStore();
+
       const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
       const data = {
         content: newTask.trim(),
         description: "",
@@ -22,7 +28,7 @@ export const userTaskStore = defineStore("task", {
       const url = "http://localhost:8080/task";
 
       if (newTask.trim() !== "") {
-        await axios
+        await axiosInstance
           .post(url, data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -41,7 +47,7 @@ export const userTaskStore = defineStore("task", {
       const url = `http://localhost:8080/task/${id}`;
 
       try {
-        await axios.delete(url, {
+        await axiosInstance.delete(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -57,7 +63,7 @@ export const userTaskStore = defineStore("task", {
       const url = "http://localhost:8080/task/today";
 
       try {
-        const response = await axios.get(url, {
+        const response = await axiosInstance.get(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -81,13 +87,11 @@ export const userTaskStore = defineStore("task", {
         };
 
         try {
-          const response = await axios.patch(url, data, {
+          const response = await axiosInstance.patch(url, data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-
-          console.log(response.data);
         } catch (error) {
           console.error(error);
         }
@@ -106,7 +110,7 @@ export const userTaskStore = defineStore("task", {
         };
 
         try {
-          const response = await axios.patch(url, data, {
+          const response = await axiosInstance.patch(url, data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -126,14 +130,14 @@ export const userTaskStore = defineStore("task", {
       const currentTime = new Date();
       task.completeTime = currentTime;
 
-      await axios
+      await axiosInstance
         .get(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
         .then((res) => {
-          console.log(task.done)
+          console.log(task.done);
           console.log(`${task.content} Task complete`);
         });
     },
@@ -141,7 +145,7 @@ export const userTaskStore = defineStore("task", {
       const url = "http://localhost:8080/history";
       const accessToken = localStorage.getItem("accessToken");
 
-      await axios
+      await axiosInstance
         .get(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -156,7 +160,7 @@ export const userTaskStore = defineStore("task", {
 
             if (this.historys[i].emotion === "HAPPY") {
               this.happy[i] = true;
-            } else if(this.historys[i].emotion === "UNHAPPY") {
+            } else if (this.historys[i].emotion === "UNHAPPY") {
               this.unhappy[i] = true;
             }
           }
@@ -177,7 +181,7 @@ export const userTaskStore = defineStore("task", {
       const url = `http://localhost:8080/history/feed/${id}`;
 
       var emotion = "";
-      if (this.happy[id-1] === true) {
+      if (this.happy[id - 1] === true) {
         emotion = "HAPPY";
       } else {
         emotion = "UNHAPPY";
@@ -188,7 +192,7 @@ export const userTaskStore = defineStore("task", {
         emotion: emotion,
       };
 
-      await axios.post(url, todoHistoryFeedRequest, {
+      await axiosInstance.post(url, todoHistoryFeedRequest, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
