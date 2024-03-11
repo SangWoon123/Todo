@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final CustomUserDetailsService customUserDetailsService;
-    private final RedisDao redisDao;
     private final RefreshTokenService refreshTokenService;
 
 
