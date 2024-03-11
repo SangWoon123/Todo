@@ -4,6 +4,8 @@ import com.gdsc.todo.global.config.redis.RedisOAuth2AuthorizedClientService;
 import com.gdsc.todo.global.oauth.CustomOAuth2Service;
 import com.gdsc.todo.global.oauth.handler.OAuth2LoginFailureHandler;
 import com.gdsc.todo.global.oauth.handler.Oauth2SuccessHandler;
+import com.gdsc.todo.global.oauth.handler.logout.CustomLogoutHandler;
+import com.gdsc.todo.global.oauth.handler.logout.CustomLogoutSuccessHandler;
 import com.gdsc.todo.global.token.JwtAuthenticationFilter;
 import com.gdsc.todo.global.token.JwtExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
@@ -29,28 +31,34 @@ public class SecurityConfig {
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    // 로그아웃
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomLogoutHandler logoutHandler;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorizeRequests)->authorizeRequests
+                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(
-                                "/", "/swagger-ui/**",
+                                "/", "/swagger-ui/**", "/**",
                                 "**.html", "**.css", "**.js",
                                 "/swagger-resources/**", "/webjars/**", "/v3/api-docs/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2Login(oauth2Login-> oauth2Login
-                        .userInfoEndpoint(userInfoEndpointConfig-> userInfoEndpointConfig
-                                        .userService(customOAuth2Service))
-                                .successHandler(oauth2SuccessHandler)
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2Service))
+                        .successHandler(oauth2SuccessHandler)
                         .failureHandler(oAuth2LoginFailureHandler)
                         .authorizedClientService(authorizedClientService()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionHandlerFilter,JwtAuthenticationFilter.class);
+                .addFilterBefore(jwtExceptionHandlerFilter, JwtAuthenticationFilter.class)
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessHandler(customLogoutSuccessHandler)
+                );
 
         return http.build();
     }

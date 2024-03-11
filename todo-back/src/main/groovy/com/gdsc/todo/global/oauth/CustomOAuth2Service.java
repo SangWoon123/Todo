@@ -63,6 +63,7 @@ public class CustomOAuth2Service implements OAuth2UserService<OAuth2UserRequest,
         return findUser;
     }
     private User saveUser(OAuthAttributes attributes, SocialType socialType) {
+        log.info("신규 회원가입");
         User createdUser = attributes.toEntity(socialType, attributes.getOauth2UserInfo());
         return userRepository.save(createdUser);
     }
