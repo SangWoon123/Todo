@@ -11,6 +11,8 @@ public class WebConfigure implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:9000") // Vue.js 애플리케이션의 주소
+                .allowedHeaders("*")
+                .exposedHeaders("*")
                 .allowedMethods("*");
     }
 }

@@ -1,6 +1,7 @@
 package com.gdsc.todo.global.token;
 
 import com.gdsc.todo.global.error.ErrorResponse;
+import com.gdsc.todo.global.error.InvalidRequestException;
 import com.sun.jdi.request.InvalidRequestStateException;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -25,7 +26,7 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
             filterChain.doFilter(request,response);
-        }catch (InvalidRequestStateException e){
+        }catch (InvalidRequestException e){
             setErrorResponse(HttpStatus.UNAUTHORIZED,response,e);
         }
     }

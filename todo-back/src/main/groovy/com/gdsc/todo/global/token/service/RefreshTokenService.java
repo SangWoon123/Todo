@@ -7,6 +7,7 @@ import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Ref;
 import java.util.NoSuchElementException;
@@ -19,6 +20,7 @@ public class RefreshTokenService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    @Transactional
     public void updateRefreshToken(String email, String refreshToken) {
 
         User user = userRepository.findByEmail(email)
