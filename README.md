@@ -44,7 +44,8 @@
 
 ---
 
-![Group 23 (2)](https://github.com/SangWoon123/Todo/assets/100204926/fc82139b-0ef4-4efd-ab91-ac0616bc316e)
+![MyTodo배포](https://github.com/SangWoon123/Todo/assets/100204926/04c9eddc-9801-49ee-833c-b0f07bd353b2)
+
 
 -   백엔드 배포만 따로진행
 
