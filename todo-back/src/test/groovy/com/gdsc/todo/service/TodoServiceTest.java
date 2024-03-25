@@ -1,11 +1,11 @@
 package com.gdsc.todo.service;
 
 import com.gdsc.todo.global.details.Role;
-import com.gdsc.todo.task.dao.Todo;
+import com.gdsc.todo.task.domain.Todo;
 import com.gdsc.todo.task.repository.TodoRepository;
 import com.gdsc.todo.task.service.TodoService;
-import com.gdsc.todo.user.dao.SocialType;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.SocialType;
+import com.gdsc.todo.user.domain.User;
 import com.gdsc.todo.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

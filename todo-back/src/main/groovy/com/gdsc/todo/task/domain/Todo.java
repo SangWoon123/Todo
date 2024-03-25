@@ -1,7 +1,8 @@
-package com.gdsc.todo.task.dao;
+package com.gdsc.todo.task.domain;
 
+import com.gdsc.todo.global.audit.BaseEntityTIme;
 import com.gdsc.todo.history.domain.TodoHistory;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Table(name = "Task")
-public class Todo{
+public class Todo extends BaseEntityTIme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,9 +39,9 @@ public class Todo{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void update(Optional<String> content, Optional<String> description){
-        content.ifPresent(value -> this.content=value);
-        description.ifPresent(value->this.description=value);
+    public void update(Optional<String> content, Optional<String> description) {
+        content.ifPresent(value -> this.content = value);
+        description.ifPresent(value -> this.description = value);
     }
 
     public void toggleComplete() {
@@ -52,6 +53,7 @@ public class Todo{
             this.completeTime = LocalDateTime.now();
         }
     }
+
     public void connectHistory(TodoHistory history) {
         this.history = history;
     }

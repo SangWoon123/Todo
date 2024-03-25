@@ -1,7 +1,7 @@
 package com.gdsc.todo.global.oauth;
 
-import com.gdsc.todo.user.dao.SocialType;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.SocialType;
+import com.gdsc.todo.user.domain.User;
 import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,6 @@ import java.util.Map;
 public class CustomOAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

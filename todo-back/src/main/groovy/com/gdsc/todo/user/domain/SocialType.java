@@ -1,4 +1,4 @@
-package com.gdsc.todo.user.dao;
+package com.gdsc.todo.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,9 @@
 package com.gdsc.todo.history.domain;
 
+import com.gdsc.todo.global.audit.BaseEntityTIme;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
-import com.gdsc.todo.task.dao.Todo;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.task.domain.Todo;
+import com.gdsc.todo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class TodoHistory {
+public class TodoHistory extends BaseEntityTIme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

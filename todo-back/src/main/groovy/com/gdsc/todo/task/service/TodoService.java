@@ -2,11 +2,11 @@ package com.gdsc.todo.task.service;
 
 import com.gdsc.todo.global.details.CustomUser;
 import com.gdsc.todo.history.service.TodoHistoryService;
-import com.gdsc.todo.task.dao.Todo;
+import com.gdsc.todo.task.domain.Todo;
 import com.gdsc.todo.task.dto.TodoRequest;
 import com.gdsc.todo.task.dto.TodoResponse;
 import com.gdsc.todo.task.repository.TodoRepository;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.User;
 import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

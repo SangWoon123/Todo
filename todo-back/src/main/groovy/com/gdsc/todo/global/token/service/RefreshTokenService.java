@@ -2,14 +2,13 @@ package com.gdsc.todo.global.token.service;
 
 import com.gdsc.todo.global.token.dao.RefreshToken;
 import com.gdsc.todo.global.token.repository.RefreshTokenRepository;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.User;
 import com.gdsc.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Ref;
 import java.util.NoSuchElementException;
 
 @Service

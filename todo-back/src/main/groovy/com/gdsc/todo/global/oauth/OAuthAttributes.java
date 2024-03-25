@@ -4,8 +4,8 @@ import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.global.oauth.userInfo.KakaoOAuth2UserInfo;
 import com.gdsc.todo.global.oauth.userInfo.NaverOAuth2UserInfo;
 import com.gdsc.todo.global.oauth.userInfo.OAuth2UserInfo;
-import com.gdsc.todo.user.dao.SocialType;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.SocialType;
+import com.gdsc.todo.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 

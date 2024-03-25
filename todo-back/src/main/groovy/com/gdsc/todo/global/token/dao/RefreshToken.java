@@ -1,6 +1,6 @@
 package com.gdsc.todo.global.token.dao;
 
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
