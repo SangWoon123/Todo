@@ -6,14 +6,20 @@
 
 계획 하고있는 하루의 목표를 기록하는 TodoList 서비스
 
+now: 배포연습중..
+
 ### ⚒️기술스택
 
 ---
 
--   Front: Vue, Quasar famework, Pinia
--   Backend: Java 17, Spring Boot 3.0, JPA, gradle 2.7, Swagger
--   DB: MySQL
--   Dev-ops: AWS, Github action, Docker
+### Front
+<img src="https://github.com/SangWoon123/Todo/assets/100204926/6b12d8a4-4d67-4fd2-84db-b1269cdd2e27" width="50%" height="50%" />
+
+### Backend
+<img src="https://github.com/SangWoon123/Todo/assets/100204926/c3936c96-fa90-4de3-b1f5-2e82e322ce56" width="50%" height="50%" />
+
+### Infra
+<img src="https://github.com/SangWoon123/Todo/assets/100204926/19072fec-51af-4194-938c-5cb079226fd5" width="50%" height="50%" />
 
 ### UI (디자인)
 
