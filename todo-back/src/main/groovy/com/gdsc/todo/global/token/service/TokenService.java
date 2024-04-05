@@ -1,23 +1,24 @@
 package com.gdsc.todo.global.token.service;
 
+import com.gdsc.todo.global.config.redis.RedisDao;
 import com.gdsc.todo.global.error.ErrorCode;
+import com.gdsc.todo.global.error.InvalidRequestException;
 import com.sun.jdi.request.InvalidRequestStateException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Duration;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -29,17 +30,21 @@ public class TokenService {
     private long accessExpiration;
     private long refreshExpiration;
     private static final String BEARER = "Bearer ";
+    // redis
+    private final RedisDao redisDao;
 
     public TokenService(@Value("${jwt.secret}") String SECRET_KEY,
                         @Value("${jwt.access-expiration}") long accessExpiration,
                         @Value("${jwt.refresh-expiration}") long refreshExpiration,
                         @Value("${jwt.access-header}") String accessHeader,
-                        @Value("${jwt.refresh-header}") String refreshHeader) {
+                        @Value("${jwt.refresh-header}") String refreshHeader,
+                        RedisDao redisDao) {
         this.SECRET_KEY = SECRET_KEY;
         this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
         this.accessHeader = accessHeader;
         this.refreshHeader = refreshHeader;
+        this.redisDao = redisDao;
     }
 
     public String generateToken(long expiration, String email) {
@@ -57,17 +62,10 @@ public class TokenService {
     }
 
     public String generateRefreshToken(String email) {
-        return generateToken(refreshExpiration, email);
-    }
-
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.hasText(bearerToken) && StringUtils.startsWithIgnoreCase(bearerToken,
-                BEARER)) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        String refreshToken = generateToken(refreshExpiration, email);
+        // redis에 refreshToken 저장
+        redisDao.setValues(email, refreshToken, Duration.ofMillis(refreshExpiration));
+        return refreshToken;
     }
 
     // 토큰의 유효성 + 만료일자 확인
@@ -76,15 +74,27 @@ public class TokenService {
             Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
             return true;
         } catch (SignatureException e) {
-            throw new InvalidRequestStateException(ErrorCode.INVALID_JWT_SIGNATURE.getMessage());
+            throw new InvalidRequestException(ErrorCode.INVALID_JWT_SIGNATURE);
         } catch (ExpiredJwtException e) {
-            throw new InvalidRequestStateException(ErrorCode.EXPIRED_TOKEN.getMessage());
+            log.warn("만료된 액세스 토큰");
+            throw new InvalidRequestException(ErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            throw new InvalidRequestStateException(ErrorCode.INVALID_TOKEN.getMessage());
+            throw new InvalidRequestException(ErrorCode.INVALID_TOKEN);
         } catch (MalformedJwtException e) {
-            throw new InvalidRequestStateException(ErrorCode.INVALID_PERMISSION.getMessage());
+            throw new InvalidRequestException(ErrorCode.INVALID_PERMISSION);
         } catch (IllegalArgumentException e) {
-            throw new InvalidRequestStateException(ErrorCode.NOT_ACCESS_TOKEN.getMessage());
+            log.warn("액세스 토큰이 존재하지 않는 요청.");
+            throw new InvalidRequestException(ErrorCode.NOT_ACCESS_TOKEN);
+        }
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+            return true;
+        } catch (Exception e) {
+            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            return false;
         }
     }
 
@@ -94,7 +104,6 @@ public class TokenService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
         return claim.getSubject();
     }
 
@@ -117,4 +126,17 @@ public class TokenService {
         log.info("Refresh Token 헤더 설정");
         response.setHeader(refreshHeader, BEARER + refreshToken);
     }
+
+    public Optional<String> extractRefreshToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(refreshHeader))
+                .filter(refreshToken -> refreshToken.startsWith(BEARER))
+                .map(refreshToken -> refreshToken.replace(BEARER, ""));
+    }
+
+    public Optional<String> extractAccessToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(accessHeader))
+                .filter(accessToken -> accessToken.startsWith(BEARER))
+                .map(accessToken -> accessToken.replace(BEARER, ""));
+    }
+
 }

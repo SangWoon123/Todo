@@ -1,10 +1,8 @@
 package com.gdsc.todo.task.repository;
 
-import com.gdsc.todo.task.dao.Todo;
-import com.gdsc.todo.user.dao.User;
-import feign.Param;
+import com.gdsc.todo.task.domain.Todo;
+import com.gdsc.todo.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;

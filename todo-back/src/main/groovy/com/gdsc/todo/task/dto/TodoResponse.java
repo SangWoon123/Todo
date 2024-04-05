@@ -1,6 +1,6 @@
 package com.gdsc.todo.task.dto;
 
-import com.gdsc.todo.task.dao.Todo;
+import com.gdsc.todo.task.domain.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,9 +1,10 @@
-package com.gdsc.todo.user.dao;
+package com.gdsc.todo.user.domain;
 
+import com.gdsc.todo.global.audit.BaseEntityTIme;
 import com.gdsc.todo.global.details.Role;
 import com.gdsc.todo.global.token.dao.RefreshToken;
 import com.gdsc.todo.history.domain.TodoHistory;
-import com.gdsc.todo.task.dao.Todo;
+import com.gdsc.todo.task.domain.Todo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseEntityTIme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,4 +63,5 @@ public class User {
     public void addTodoHistory(TodoHistory history) {
         this.todoHistories.add(history);
     }
+
 }

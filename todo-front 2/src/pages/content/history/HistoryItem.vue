@@ -38,7 +38,6 @@
 
 <script>
 import { userTaskStore } from "src/stores/storage";
-import moment from "moment";
 
 export default {
   props: {

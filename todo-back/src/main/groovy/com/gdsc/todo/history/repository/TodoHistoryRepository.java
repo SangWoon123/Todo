@@ -1,7 +1,7 @@
 package com.gdsc.todo.history.repository;
 
 import com.gdsc.todo.history.domain.TodoHistory;
-import com.gdsc.todo.user.dao.User;
+import com.gdsc.todo.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

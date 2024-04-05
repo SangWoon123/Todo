@@ -45,14 +45,14 @@ export default {
   methods: {
     fetchQuote() {
       const quoteUrl = `http://localhost:8080/quote`;
-      axios.get(quoteUrl).then((res) => {
-        this.quote = res.data.slip.advice;
-      });
+      // axios.get(quoteUrl).then((res) => {
+      //   this.quote = res.data.slip;
+      // });
     },
   },
   created() {
     this.fetchQuote();
-    setInterval(this.fetchQuote, 10000);
+    // setInterval(this.fetchQuote, 10000);
   },
   setup() {
     const store = userTaskStore();
