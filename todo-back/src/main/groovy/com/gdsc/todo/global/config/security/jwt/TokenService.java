@@ -1,20 +1,14 @@
-package com.gdsc.todo.global.token.service;
+package com.gdsc.todo.global.config.security.jwt;
 
-import com.gdsc.todo.global.config.redis.RedisDao;
 import com.gdsc.todo.global.error.ErrorCode;
 import com.gdsc.todo.global.error.InvalidRequestException;
-import com.sun.jdi.request.InvalidRequestStateException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.Date;
@@ -30,21 +24,17 @@ public class TokenService {
     private long accessExpiration;
     private long refreshExpiration;
     private static final String BEARER = "Bearer ";
-    // redis
-    private final RedisDao redisDao;
 
     public TokenService(@Value("${jwt.secret}") String SECRET_KEY,
                         @Value("${jwt.access-expiration}") long accessExpiration,
                         @Value("${jwt.refresh-expiration}") long refreshExpiration,
                         @Value("${jwt.access-header}") String accessHeader,
-                        @Value("${jwt.refresh-header}") String refreshHeader,
-                        RedisDao redisDao) {
+                        @Value("${jwt.refresh-header}") String refreshHeader) {
         this.SECRET_KEY = SECRET_KEY;
         this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
         this.accessHeader = accessHeader;
         this.refreshHeader = refreshHeader;
-        this.redisDao = redisDao;
     }
 
     public String generateToken(long expiration, String email) {
@@ -62,10 +52,7 @@ public class TokenService {
     }
 
     public String generateRefreshToken(String email) {
-        String refreshToken = generateToken(refreshExpiration, email);
-        // redis에 refreshToken 저장
-        redisDao.setValues(email, refreshToken, Duration.ofMillis(refreshExpiration));
-        return refreshToken;
+        return generateToken(refreshExpiration, email);
     }
 
     // 토큰의 유효성 + 만료일자 확인

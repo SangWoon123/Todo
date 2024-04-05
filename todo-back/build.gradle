@@ -24,8 +24,9 @@ repositories {
 }
 
 dependencies {
+    // Ehache
+    implementation 'net.sf.ehcache:ehcache'
     // Feign Client
-    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.0'
 
     //swagger

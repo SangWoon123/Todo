@@ -73,7 +73,7 @@ public class TodoHistoryService {
                 TodoHistory history = TodoHistory.builder()
                         .day(yesterday)
                         .total((long) yesterdayTasks.size())
-                        .complete(yesterdayTasks.stream().filter(Todo::isDone).count())
+                        .isComplete(yesterdayTasks.stream().filter(Todo::isDone).count())
                         .user(user)
                         .todos(yesterdayTasks)
                         .build();

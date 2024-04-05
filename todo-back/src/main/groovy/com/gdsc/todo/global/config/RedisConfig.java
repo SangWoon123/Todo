@@ -1,4 +1,4 @@
-package com.gdsc.todo.global.config.redis;
+package com.gdsc.todo.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

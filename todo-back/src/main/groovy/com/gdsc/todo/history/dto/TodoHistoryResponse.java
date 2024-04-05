@@ -29,7 +29,7 @@ public class TodoHistoryResponse {
                 .feedback(history.getFeedback())
                 .emotion(history.getEmotion())
                 .todos(todos)
-                .complete(history.getComplete())
+                .complete(history.getIsComplete())
                 .build();
     }
 }

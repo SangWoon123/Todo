@@ -1,6 +1,7 @@
 package com.gdsc.todo.service;
 
 import com.gdsc.todo.global.details.Role;
+import com.gdsc.todo.history.domain.Emotion;
 import com.gdsc.todo.history.domain.TodoHistory;
 import com.gdsc.todo.history.repository.TodoHistoryRepository;
 import com.gdsc.todo.history.service.TodoHistoryService;
@@ -63,7 +64,7 @@ class TodoHistoryServiceTest {
         TodoHistory history = TodoHistory.builder()
                 .day(LocalDate.now().minusDays(dayOffset))
                 .total(total)
-                .complete(complete)
+                .isComplete(complete)
                 .user(testUser)
                 .build();
         historyRepository.save(history);
@@ -137,7 +138,7 @@ class TodoHistoryServiceTest {
         TodoHistory todoHistory = historyRepository.findByUser(testUser)
                 .orElseThrow(() -> new IllegalArgumentException("Not Found"));
 
-        todoHistory.updateFeed("피드를 작성",true);
+        todoHistory.updateFeed("피드를 작성", Emotion.HAPPY);
 
         Assertions.assertEquals(todoHistory.getFeedback(),"피드를 작성");
     }

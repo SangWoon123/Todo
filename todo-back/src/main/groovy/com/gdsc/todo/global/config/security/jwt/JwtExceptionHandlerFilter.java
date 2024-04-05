@@ -1,4 +1,4 @@
-package com.gdsc.todo.global.token;
+package com.gdsc.todo.global.config.security.jwt;
 
 import com.gdsc.todo.global.error.ErrorResponse;
 import com.gdsc.todo.global.error.InvalidRequestException;

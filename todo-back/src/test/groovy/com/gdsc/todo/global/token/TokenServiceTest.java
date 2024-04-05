@@ -1,7 +1,6 @@
 package com.gdsc.todo.global.token;
 
-import com.gdsc.todo.global.token.service.RefreshTokenService;
-import com.gdsc.todo.global.token.service.TokenService;
+import com.gdsc.todo.global.config.security.jwt.TokenService;
 import com.sun.jdi.request.InvalidRequestStateException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

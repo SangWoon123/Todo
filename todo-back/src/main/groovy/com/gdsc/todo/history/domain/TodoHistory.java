@@ -13,34 +13,48 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "TODOHISTORY")
 public class TodoHistory extends BaseEntityTIme {
 
     @Id
+    @Column(name = "todo_history_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "day", nullable = false)
     private LocalDate day;
 
+    @Column(name = "total")
     private Long total;
 
-    private Long complete;
+    @Column(name = "complete", nullable = false)
+    private Long isComplete;
 
+    @Column(name = "feed_back")
     private String feedback;
 
+    @Column(name = "emotion")
     @Enumerated(value = EnumType.STRING)
     private Emotion emotion;
 
-    @OneToMany(mappedBy = "history")
+    @OneToMany(mappedBy = "history", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
+    public TodoHistory(LocalDate day, Long total, Long isComplete, String feedback, Emotion emotion, List<Todo> todos, User user) {
+        this.day = day;
+        this.total = total;
+        this.isComplete = isComplete;
+        this.feedback = feedback;
+        this.emotion = emotion;
+        this.todos = todos;
+        this.user = user;
+    }
 
     public void addTodo(Todo todo) {
         this.todos.add(todo);
@@ -51,7 +65,7 @@ public class TodoHistory extends BaseEntityTIme {
         return historyRepository.findByDayAndUser(day, user)
                 .orElseGet(() -> TodoHistory.builder()
                         .total(0L)
-                        .complete(0L)
+                        .isComplete(0L)
                         .day(day)
                         .user(user)
                         .todos(new ArrayList<>()).build());

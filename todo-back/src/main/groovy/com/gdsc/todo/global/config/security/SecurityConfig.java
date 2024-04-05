@@ -1,13 +1,12 @@
-package com.gdsc.todo.global.config;
+package com.gdsc.todo.global.config.security;
 
-import com.gdsc.todo.global.config.redis.RedisOAuth2AuthorizedClientService;
+import com.gdsc.todo.global.config.security.jwt.JwtAuthenticationFilter;
+import com.gdsc.todo.global.config.security.jwt.JwtExceptionHandlerFilter;
 import com.gdsc.todo.global.oauth.CustomOAuth2Service;
 import com.gdsc.todo.global.oauth.handler.OAuth2LoginFailureHandler;
 import com.gdsc.todo.global.oauth.handler.Oauth2SuccessHandler;
 import com.gdsc.todo.global.oauth.handler.logout.CustomLogoutHandler;
 import com.gdsc.todo.global.oauth.handler.logout.CustomLogoutSuccessHandler;
-import com.gdsc.todo.global.token.JwtAuthenticationFilter;
-import com.gdsc.todo.global.token.JwtExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +19,11 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
@@ -33,7 +33,7 @@ public class SecurityConfig {
     private final ClientRegistrationRepository clientRegistrationRepository;
     // 로그아웃
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
-    private final CustomLogoutHandler logoutHandler;
+    private final CustomLogoutHandler customLogoutHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(
-                                "/", "/swagger-ui/**", "/**",
+                                "/","/logout", "/swagger-ui/**",
                                 "**.html", "**.css", "**.js",
                                 "/swagger-resources/**", "/webjars/**", "/v3/api-docs/**"
                         )
@@ -52,19 +52,16 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2Service))
                         .successHandler(oauth2SuccessHandler)
-                        .failureHandler(oAuth2LoginFailureHandler)
-                        .authorizedClientService(authorizedClientService()))
+                        .failureHandler(oAuth2LoginFailureHandler))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionHandlerFilter, JwtAuthenticationFilter.class)
-                .logout(logout -> logout.logoutUrl("/logout")
+                .logout(logOut -> logOut
+                        .addLogoutHandler(customLogoutHandler)
                         .logoutSuccessHandler(customLogoutSuccessHandler)
+                        .logoutUrl("/logout")
+                        .permitAll()
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public OAuth2AuthorizedClientService authorizedClientService() {
-        return new RedisOAuth2AuthorizedClientService(clientRegistrationRepository);
     }
 }
