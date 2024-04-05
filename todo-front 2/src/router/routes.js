@@ -13,6 +13,7 @@ const routes = [
       { path: "sign", component: () => import("pages/auth/SignIn.vue") },
       { path: "home", component: () => import("pages/TodoApp.vue") },
       { path: "home/redirect", component: () => import("src/pages/auth/RedirectPage.vue") },
+      { path: "logout", component: () => import("src/pages/auth/RedirectLoginPage.vue") },
     ],
   },
 

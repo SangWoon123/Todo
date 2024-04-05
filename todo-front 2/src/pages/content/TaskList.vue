@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .test {
   width: 100%; /* 원하는 너비로 조절 */
   min-height: 38px;

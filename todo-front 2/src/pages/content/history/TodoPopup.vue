@@ -108,9 +108,7 @@
 
         <!-- 확인버튼 -->
         <div style="width: 223px; height: 38px; position: relative">
-          <button type="submit" class="submit-button">
-            Submit feedback
-          </button>
+          <button type="submit" class="submit-button">Submit feedback</button>
         </div>
       </q-form>
     </q-layout>
@@ -167,8 +165,8 @@ export default {
           this.savedFeedback = this.feedbackText;
           this.submitted = true;
           this.$emit("close");
-          this.$emit("happy",this.happyImage,this.historys.id)
-          this.$emit("unhappy",this.unhappyImage,this.historys.id)
+          this.$emit("happy", this.happyImage, this.historys.id);
+          this.$emit("unhappy", this.unhappyImage, this.historys.id);
         });
     },
   },

@@ -14,6 +14,7 @@
               @unhappy="handleUnHappy"
             />
 
+
             <div class="column history">
               <!-- 날짜 -->
               <div class="col-4">

@@ -30,7 +30,6 @@ export const useTokenStore = defineStore('token', {
         },
       })
       .then((response) => {
-        console.log("refreshToken설동")
         const newAccessToken = response.headers.authorization.substring(7);
         const newRefreshToken = response.headers.refreshtoken.substring(7);
         // 새로운 액세스 토큰과 리프레시 토큰을 로컬 스토리지에 업데이트합니다.
@@ -41,6 +40,16 @@ export const useTokenStore = defineStore('token', {
         this.token.refreshToken = response.headers.refreshtoken.substring(7);
         // 페이지내 데이터는 그대로 + 리로드
         this.$router.go(this.$router.currentRoute);
+      })
+    },
+    getLogout(){
+      axios.get("http://localhost:8080/logout",{
+        headers:{
+          Authorization: `Bearer ${this.accessToken}`
+        }
+      })
+      .then((res)=>{
+        console.log("로그아웃")
       })
     }
   },
