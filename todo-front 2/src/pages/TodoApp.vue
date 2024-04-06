@@ -37,6 +37,7 @@ import TaskList from "./content/TaskList.vue";
 import TodoHeader from "./content/TodoHeader.vue";
 import TodoHistory from "./content/history/TodoHistory.vue";
 import { useTokenStore } from "src/stores/token";
+import axios from "axios";
 
 export default {
   data() {
@@ -73,15 +74,26 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        token.accessToken = null;
-        token.refreshToken = null;
-        localStorage.clear();
-        console.log("로그인 완료");
+        const logoutUrl = "http://localhost:8080/logout";
+
         console.log(token.accessToken);
-        console.log(token.refreshToken);
-        window.location.href = "/sign";
+        axios
+          .get(logoutUrl, {
+            headers: {
+              Authorization: `${token.accessToken}`,
+            },
+          })
+          .then((res) => {
+            
+          })
+          .finally((err)=>{
+            console.log("로그아웃 완료");
+          });
+
+        // window.location.href = logoutUrl;
       });
     }
+
     return { confirm, token };
   },
 };

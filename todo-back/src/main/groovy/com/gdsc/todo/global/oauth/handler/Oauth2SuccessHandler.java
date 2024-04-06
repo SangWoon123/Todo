@@ -4,7 +4,6 @@ import com.gdsc.todo.global.config.security.jwt.TokenService;
 import com.gdsc.todo.global.config.security.jwt.dto.TokenResponse;
 import com.gdsc.todo.global.config.security.jwt.service.TokenCacheService;
 import com.gdsc.todo.global.oauth.CustomOAuth2User;
-import com.gdsc.todo.user.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

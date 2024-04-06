@@ -1,15 +1,15 @@
 package com.gdsc.todo.service;
 
 import com.gdsc.todo.global.details.Role;
-import com.gdsc.todo.history.domain.Emotion;
-import com.gdsc.todo.history.domain.TodoHistory;
-import com.gdsc.todo.history.repository.TodoHistoryRepository;
-import com.gdsc.todo.history.service.TodoHistoryService;
-import com.gdsc.todo.task.domain.Todo;
-import com.gdsc.todo.task.repository.TodoRepository;
-import com.gdsc.todo.user.domain.SocialType;
-import com.gdsc.todo.user.domain.User;
-import com.gdsc.todo.user.repository.UserRepository;
+import com.gdsc.todo.domain.history.domain.Emotion;
+import com.gdsc.todo.domain.history.domain.TodoHistory;
+import com.gdsc.todo.domain.history.repository.TodoHistoryRepository;
+import com.gdsc.todo.domain.history.service.TodoHistoryService;
+import com.gdsc.todo.domain.task.domain.Todo;
+import com.gdsc.todo.domain.task.repository.TodoRepository;
+import com.gdsc.todo.domain.user.domain.SocialType;
+import com.gdsc.todo.domain.user.domain.User;
+import com.gdsc.todo.domain.user.repository.UserRepository;
 import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

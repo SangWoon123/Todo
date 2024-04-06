@@ -1,7 +1,7 @@
 package com.gdsc.todo.global.details;
 
-import com.gdsc.todo.user.domain.User;
-import com.gdsc.todo.user.repository.UserRepository;
+import com.gdsc.todo.domain.user.domain.User;
+import com.gdsc.todo.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
