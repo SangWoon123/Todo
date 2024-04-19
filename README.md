@@ -55,17 +55,14 @@ now: 배포연습중..
 
 -   백엔드 배포만 따로진행
 
-### 📺 동작
+### 📺 Demo
 
 ---
 
-1. 로그인
-2. CRUD
-3. Todo 히스토리 및 셀프 피드백
 
-![첫 번째 이미지 설명](https://github.com/SangWoon123/Todo/assets/100204926/2f6a6045-c02d-42c7-89f4-9c1f1f51d128) 
-![CRUD 관련 이미지](https://github.com/SangWoon123/Todo/assets/100204926/f4207687-073a-46e8-8f43-c26e97dbf913) 
-![Todo 히스토리 및 셀프 피드백 이미지](https://github.com/SangWoon123/Todo/assets/100204926/fd954640-651a-430a-a908-6e1c80f78e1f) 
+|                    로그인 (로그인O)                   |                    CRUD (로그인X)                    |                          히스토리 및 셀프 피드백                         |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="https://github.com/SangWoon123/Todo/assets/100204926/2f6a6045-c02d-42c7-89f4-9c1f1f51d128" alt="로그인" width=80%> | <img src="https://github.com/SangWoon123/Todo/assets/100204926/f4207687-073a-46e8-8f43-c26e97dbf913" alt="Todo CRUD" width=80%> | <img src="https://github.com/SangWoon123/Todo/assets/100204926/fd954640-651a-430a-a908-6e1c80f78e1f" alt="히스토리 및 셀프피드백" width=80%> |
 
 
 ### 기록
