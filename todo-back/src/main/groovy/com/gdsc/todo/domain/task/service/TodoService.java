@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    private final TodoHistoryService historyService;
     private final UserService userService;
 
     public TodoResponse createTask(CustomUser userDto, TodoRequest create) {
